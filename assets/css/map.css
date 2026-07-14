@@ -1,0 +1,86 @@
+/* pagination color */
+
+.page-item.active .page-link {
+    background-color: #1A44B2 !important;
+    border-color: #1A44B2 !important;
+    color: white !important;
+  }
+
+  .page-link {
+    color: #1A44B2;
+  }
+
+  .page-link:hover {
+    background-color: #1A44B2;
+    color: white;
+  }
+
+:root {
+    --bs-primary: #1A44B2;
+}
+
+.btn-primary,
+.btn-outline-primary {
+    background-color: #1A44B2;
+    border-color: #1A44B2;
+}
+
+.btn-outline-primary {
+    background-color: #ffffff;
+    border-color: #1A44B2;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #173a98;
+    border-color: #173a98;
+}
+
+.border-primary {
+    border-color: #1A44B2 !important;
+}
+
+.text-primary {
+    color: #1A44B2 !important;
+}
+
+.textarea-container {
+    position: relative;
+}
+
+.textarea-container button {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-10%);
+    z-index: 10;
+}
+
+.textarea-container textarea {
+    padding-right: 50px;
+}
+
+.preview-container {
+    margin-top: 20px;
+}
+
+.preview-container svg {
+    width: 100%;
+    height: auto;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-item .badge-custom {
+    position: absolute;
+    top: 20px;
+    right: 12px;
+    transform: translate(50%, -50%);
+    cursor: pointer;
+}

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset
+xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- HOMEPAGE -->
+  <url>
+    <loc>https://grahatransport.web.id/</loc>
+    <lastmod>2026-05-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- MENU -->
+  <url>
+    <loc>https://grahatransport.web.id/#beranda/</loc>
+    <lastmod>2026-05-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <!-- MENU -->
+  <url>
+    <loc>https://grahatransport.web.id/#keunggulan</loc>
+    <lastmod>2026-05-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <!-- MENU -->
+  <url>
+    <loc>https://grahatransport.web.id/#armada</loc>
+    <lastmod>2026-05-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <!-- MENU -->
+  <url>
+    <loc>https://grahatransport.web.id/#review</loc>
+    <lastmod>2026-05-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <!-- MENU -->
+  <url>
+    <loc>https://grahatransport.web.id/#kontak</loc>
+    <lastmod>2026-05-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+
+</urlset>

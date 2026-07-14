@@ -1,0 +1,416 @@
+/* CSS for Loader */
+@-webkit-keyframes placeHolderShimmer {
+    0% {
+        background-position: -468px 0;
+    }
+
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+@keyframes placeHolderShimmer {
+    0% {
+        background-position: -468px 0;
+    }
+
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+.content-placeholder {
+    display: inline-block;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-name: placeHolderShimmer;
+    animation-name: placeHolderShimmer;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    background: #f6f7f8;
+    background: -webkit-gradient(linear, left top, right top, color-stop(8%, #eeeeee), color-stop(18%, #dddddd),
+            color-stop(33%, #eeeeee));
+    background: -webkit-linear-gradient(left, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    -webkit-background-size: 800px 104px;
+    background-size: 800px 104px;
+    height: inherit;
+    position: relative;
+    border-radius: 5px;
+}
+
+.post_data {
+    padding: 16px;
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
+    margin-bottom: 24px;
+    background-color: #fff;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.image-placeholder {
+    width: 402px;
+    height: 355px;
+    border-radius: 8%;
+    margin-right: 31px;
+}
+
+.details-placeholder {
+    flex: 1;
+}
+
+.title-placeholder,
+.sub-title-placeholder,
+.price-placeholder {
+    height: 20px;
+    margin-bottom: 10px;
+}
+
+.title-placeholder {
+    width: 60%;
+}
+
+.sub-title-placeholder {
+    width: 40%;
+}
+
+.price-placeholder {
+    width: 30%;
+}
+
+.judul {
+    bottom: 353px;
+    transform: translateX(6%);
+
+}
+
+.harga {
+    font-size: 15px;
+}
+
+/* css untuk detail */
+.demo-inline-spacing {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.list-unstyled {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.d-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.i-kamar-tidur {
+    width: 50px;
+    height: 50px;
+}
+
+.font-weight-bold {
+    font-weight: bold;
+}
+
+.f-sz-li-detail {
+    font-size: 1rem;
+}
+
+.col {
+    text-align: center;
+}
+
+.i-kamar-tidur {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/detail/kamar-tidur.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.i-carport {
+    padding-top: 2px;
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/detail/carport.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.i-kamar-mandi {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/detail/kamar-mandi.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.i-tamu {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/detail/ruang-tamu.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.i-keluarga {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/detail/ruang-keluarga.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.i-taman {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/detail/taman.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.i-makan {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/detail/ruang-makan.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.i-balkon {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/detail/balkon.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* icon fasilitas */
+.i-tamab-ber {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/fasilitas/playground.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.i-jalan {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/fasilitas/jalan.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.i-gate {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/fasilitas/one-gate-system.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.i-security {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/fasilitas/security.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.i-cctv {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/fasilitas/cctv.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.i-kolam {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/fasilitas/kolam-renang.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.i-ruko {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/fasilitas/area-ruko.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.i-masjid {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../upload/icon/fasilitas/masjid.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+text-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.f-sz-li-detail {
+    font-size: 10px;
+    text-align: center;
+}
+
+.ubah-content {
+    font-size: 10px !important;
+    padding: 2px 5px !important;
+    border-radius: 4px !important;
+}
+
+.demo-inline-spacing .list-unstyled {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+}
+
+.demo-inline-spacing .list-unstyled .d-flex {
+    justify-content: center;
+    width: 50px;
+}
+
+.carousel-inner img {
+    height: 420px;
+    object-fit: cover;
+}
+
+.fasiliti {
+    height: 98px;
+}
+
+.note-dropdown-menu {
+    z-index: 1050;
+}
+
+.note-editor .note-toolbar .note-btn-group {
+    display: inline-flex;
+    flex-wrap: nowrap;
+}
+
+.note-editor .note-toolbar .note-btn-group .note-btn {
+    display: flex;
+    align-items: center;
+}
+
+/* css inputan */
+.input-wrapper {
+    position: relative;
+    line-height: 14px;
+    margin: 0 0px;
+    display: grid;
+}
+
+.label-in {
+    color: #bbb;
+    font-size: 11px;
+    text-transform: uppercase;
+    position: absolute;
+    z-index: 2;
+    left: 20px;
+    top: 14px;
+    padding: 0 2px;
+    pointer-events: none;
+    background: #fff;
+    -webkit-transition: -webkit-transform 100ms ease;
+    -moz-transition: -moz-transform 100ms ease;
+    -o-transition: -o-transform 100ms ease;
+    -ms-transition: -ms-transform 100ms ease;
+    transition: transform 100ms ease;
+    -webkit-transform: translateY(-20px);
+    -moz-transform: translateY(-20px);
+    -o-transform: translateY(-20px);
+    -ms-transform: translateY(-20px);
+    transform: translateY(-20px);
+}
+
+.form-control,
+textarea,
+select {
+    font-size: 12px;
+    color: #555;
+    outline: none;
+    border: 1px solid #bbb;
+    padding: 15px 20px 10px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.form-control:invalid+label,
+select:invalid+label,
+textarea:invalid+label {
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -o-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+}
+
+.form-control:focus,
+select:focus,
+textarea:focus {
+    border-color: #1A44B2;
+}
+
+.form-control:focus+label,
+select:focus+label,
+textarea:focus+label {
+    color: #2b96f1;
+    -webkit-transform: translateY(-20px);
+    -moz-transform: translateY(-20px);
+    -o-transform: translateY(-20px);
+    -ms-transform: translateY(-20px);
+    transform: translateY(-20px);
+}
+
+.dropzone .dz-preview {
+    position: relative;
+}
+
+.dropzone .dz-preview .btn-remove {
+    position: absolute;
+    top: 98px;
+    right: 30px;
+    display: none;
+    z-index: 10;
+    border-radius: 23%;
+}
+
+.dropzone .dz-preview:hover .btn-remove {
+    display: block;
+}
