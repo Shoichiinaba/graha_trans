@@ -68,16 +68,17 @@ class Landing_model extends CI_Model
 
     public function detail_berita($slug)
     {
-        // Ubah slug menjadi kalimat
-        $keyword = str_replace('-', ' ', $slug);
-
-        $this->db->like('judul_berita', $keyword);
+        // Ambil semua berita yang sudah terindex
         $this->db->where('status_berita', 'Terindex');
-
         $query = $this->db->get('berita');
+
+        if ($query->num_rows() == 0) {
+            return false;
+        }
 
         foreach ($query->result() as $row) {
 
+            // Bandingkan slug yang dihasilkan dari judul dengan slug URL
             if (url_title($row->judul_berita, '-', TRUE) === $slug) {
                 return $row;
             }
@@ -124,13 +125,21 @@ class Landing_model extends CI_Model
 
     public function berita_terbaru($id_berita, $limit = 3)
     {
-        $this->db
+        $query = $this->db
             ->where('status_berita', 'Terindex')
             ->where('id_berita !=', $id_berita)
             ->order_by("STR_TO_DATE(tgl_berita,'%d %M %Y')", "DESC", false)
-            ->limit($limit);
+            ->limit($limit)
+            ->get('berita');
 
-        $query = $this->db->get('berita');
+        if ($query->num_rows() == 0) {
+
+            $query = $this->db
+                ->where('status_berita', 'Terindex')
+                ->order_by("STR_TO_DATE(tgl_berita,'%d %M %Y')", "DESC", false)
+                ->limit($limit)
+                ->get('berita');
+        }
 
         return $query->result();
     }
@@ -190,5 +199,49 @@ class Landing_model extends CI_Model
             ->where('type_banner', 'promo')
             ->order_by('created', 'DESC')
             ->get('banner');
+    }
+
+    public function get_banner_client()
+    {
+        return $this->db
+            ->where('type_banner', 'client')
+            ->order_by('id_banner', 'ASC')
+            ->get('banner');
+    }
+
+    // kode untuk sitemap
+    public function get_all_sitemap()
+    {
+        return $this->db
+            ->where('status_berita','Terindex')
+            ->order_by('tgl_berita','DESC')
+            ->get('berita')
+            ->result();
+    }
+
+    public function semua_tag()
+    {
+        $this->db->select('tag_berita');
+        $query = $this->db->get('berita');
+
+        $tags = [];
+
+        foreach ($query->result() as $row) {
+
+            $arr = explode(',', $row->tag_berita);
+
+            foreach ($arr as $tag) {
+
+                $tag = trim($tag);
+
+                if ($tag != '') {
+                    $tags[$tag] = $tag;
+                }
+            }
+        }
+
+        natcasesort($tags);
+
+        return array_values($tags);
     }
 }

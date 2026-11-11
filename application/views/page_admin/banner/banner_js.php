@@ -20,13 +20,14 @@
                                         <option value=""> Pilih Type Banner </option>
                                         <option value="biasa">Biasa</option>
                                         <option value="promo">Promo</option>
+                                        <option value="client">Client</option>
 
                                     </select>
 
                                     <label class="label-in">Pilih Type</label>
 
                                 </div>
-                                <div id="promoFields" style="display:none;">
+                                <div id="promoFields-ubah" style="display:none;">
                                     <div class="row">
                                         <div class="input-wrapper col-6 mt-3">
 
@@ -49,12 +50,23 @@
                                         </div>
 
                                     </div>
-                                    <div class="input-wrapper mt-3 col-12">
-                                        <input type="text" id="ubah-judul" name="judul_promo" class="form-control">
 
-                                        <label for="judul" class="label-in">
-                                            Judul Promo
-                                        </label>
+                                    <div class="row">
+                                        <div class="input-wrapper mt-3 col-6">
+                                            <input type="text" id="ubah-judul" name="judul_promo" class="form-control">
+
+                                            <label for="judul" class="label-in">
+                                                Judul Promo
+                                            </label>
+                                        </div>
+
+                                        <div class="input-wrapper mt-3 col-6">
+                                            <input type="text" id="ubah-tagline" name="tagline" class="form-control">
+
+                                            <label for="tagline" class="label-in">
+                                                Tagline
+                                            </label>
+                                        </div>
                                     </div>
 
                                     <div class="input-wrapper mt-3 col-12">
@@ -114,6 +126,7 @@
                                     <option value=""> Pilih Type Banner </option>
                                     <option value="biasa">Biasa</option>
                                     <option value="promo">Promo</option>
+                                    <option value="client">Client</option>
 
                                 </select>
 
@@ -143,12 +156,21 @@
                                     </div>
 
                                 </div>
-                                <div class="input-wrapper mt-3 col-12">
-                                    <input type="text" id="judul" name="judul_promo" class="form-control">
+                                <div class="row">
+                                    <div class="input-wrapper mt-3 col-6">
+                                        <input type="text" id="judul" name="judul_promo" class="form-control">
 
-                                    <label for="judul" class="label-in">
-                                        Judul Promo
-                                    </label>
+                                        <label for="judul" class="label-in">
+                                            Judul Promo
+                                        </label>
+                                    </div>
+                                    <div class="input-wrapper mt-3 col-6">
+                                        <input type="text" id="tagline" name="tagline" class="form-control">
+
+                                        <label for="tagline" class="label-in">
+                                            Tagline
+                                        </label>
+                                    </div>
                                 </div>
 
                                 <div class="input-wrapper mt-3 col-12">
@@ -188,15 +210,14 @@ $(document).ready(function() {
 
     const typeBanner = document.getElementById("type-banner-input");
     const promoFields = document.getElementById("promoFields");
-
     const judul = document.getElementById("judul");
     const deskripsi = document.getElementById("deskripsi");
 
+    if (!typeBanner) return;
+
     function togglePromoField() {
 
-        let value = typeBanner.value.trim().toLowerCase();
-
-        if (value === "promo") {
+        if (typeBanner.value.toLowerCase() === "promo") {
 
             promoFields.style.display = "block";
 
@@ -214,10 +235,14 @@ $(document).ready(function() {
             deskripsi.value = "";
 
         }
-
     }
 
-    typeBanner.addEventListener("input", togglePromoField);
+    // untuk select gunakan change
+    typeBanner.addEventListener("change", togglePromoField);
+
+    // jalankan sekali saat halaman dimuat
+    togglePromoField();
+
 });
 
 var base_url = "<?= base_url(); ?>";
@@ -300,6 +325,7 @@ $(document).ready(function() {
                 formData.append("type_banner", $("#type-banner-input").val());
                 formData.append("id_unit", $("#id_unit").val());
                 formData.append("judul_promo", $("#judul").val());
+                formData.append("tagline", $("#tagline").val());
                 formData.append("ket_promo", $("#deskripsi").val());
                 formData.append("diskon", $("#diskon").val());
 
@@ -714,6 +740,7 @@ $(document).ready(function() {
         let id_banner = $(this).data('id_banner');
         let id_unit = $(this).data('id_unit');
         let judul = $(this).data('judul');
+        let tagline = $(this).data('tagline');
         let ket = $(this).data('ket');
         let diskon = $(this).data('diskon');
         let type = $(this).data('type_banner');
@@ -724,14 +751,15 @@ $(document).ready(function() {
 
         $('#ubah-id-unit').val(id_unit);
         $('#ubah-judul').val(judul);
+        $('#ubah-tagline').val(tagline);
         $('#ubah-ket').val(ket);
         $('#ubah-diskon').val(diskon);
 
         // tampil/sembunyikan field promo
         if (type == "promo") {
-            $("#edit-banner #promoFields").show();
+            $("#edit-banner #promoFields-ubah").show();
         } else {
-            $("#edit-banner #promoFields").hide();
+            $("#edit-banner #promoFields-ubah").hide();
         }
 
         // load unit
@@ -776,11 +804,11 @@ $(document).ready(function() {
 
             if ($(this).val() == "promo") {
 
-                $("#edit-banner #promoFields").slideDown();
+                $("#edit-banner #promoFields-ubah").slideDown();
 
             } else {
 
-                $("#edit-banner #promoFields").slideUp();
+                $("#edit-banner #promoFields-ubah").slideUp();
 
             }
 

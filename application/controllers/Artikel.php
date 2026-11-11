@@ -15,6 +15,7 @@ class Artikel extends CI_Controller
 
     public function index($slug = '')
     {
+
         if (empty($slug)) {
             show_404();
         }
@@ -33,15 +34,18 @@ class Artikel extends CI_Controller
         $isi = $this->Landing_model->isi_berita($berita->id_berita);
 
         $listIsi = [];
+        $first_text = ''; // Digunakan untuk backup meta deskripsi jika field khusus tidak ada
 
         foreach ($isi->result() as $row) {
-
             $gallery = $this->Landing_model->foto_berita($row->id_data_berita);
-
             $foto = [];
 
             foreach ($gallery->result() as $img) {
                 $foto[] = $img->file_foto_berita;
+            }
+
+            if(empty($first_text)) {
+                $first_text = strip_tags($row->text_berita); // Ambil teks paragraf pertama bersih dari HTML
             }
 
             $listIsi[] = [
@@ -53,9 +57,32 @@ class Artikel extends CI_Controller
             ];
         }
 
+        $data['semua_tag'] = $this->Landing_model->semua_tag();
         $data['title']    = $berita->judul_berita;
         $data['berita']   = $berita;
         $data['isi']      = $listIsi;
+
+        // --- PENGATURAN SEO DINAMIS ---
+        // Gunakan field meta dari database jika ada, jika tidak, potong teks artikel (150 karakter)
+        $data['meta_desc'] = (isset($berita->meta_desk) && !empty($berita->meta_desk))
+                            ? $berita->meta_desk
+                            : substr($first_text, 0, 150) . '...';
+
+        // Gunakan keywords dari database jika ada, jika tidak, pakai default keywords
+        $data['meta_keywords'] = (isset($berita->keyword) && !empty($berita->keywords))
+                        ? $berita->keyword
+                        : 'rental mobil ungaran, sewa mobil ungaran, rental mobil semarang, sewa mobil semarang, rental mobil ungaran, sewa mobil ungaran, rental mobil semarang, rental mobil semarang murah, rental mobil dekat saya, rental mobil lepas kunci ungaran, rental mobil bandara ahmad yani, sewa mobil semarang, travel ungaran semarang, car rental semarang';
+
+        // URL dinamis untuk Canonical & Open Graph
+        $data['canonical_url'] = current_url();
+
+        // Gambar dinamis untuk Open Graph (Jika berita punya cover/foto utama)
+        if (!empty($berita->meta_foto)) {
+            $data['meta_image'] = base_url('assets/img/berita/meta_berita/' . $berita->meta_foto);
+        } else {
+            $data['meta_image'] = base_url('assets/img/logo.png'); // sesuaikan lokasi logo
+        }
+        // ------------------------------
 
         $data['populer'] = $this->Landing_model->berita_populer($berita->id_berita);
         $data['terbaru'] = $this->Landing_model->berita_terbaru($berita->id_berita);
@@ -81,8 +108,10 @@ class Artikel extends CI_Controller
             show_404();
         }
 
+        $data['semua_tag'] = $this->Landing_model->semua_tag();
         $data['title'] = 'Artikel Tag : '.$tag;
         $data['tag']   = $tag;
+        $data['canonical_url'] = base_url();
 
         // Sidebar
         $data['populer'] = $this->Landing_model->berita_populer(0, 5);

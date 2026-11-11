@@ -1,336 +1,460 @@
 <style>
-/*=========================
+    /*=========================
   Skeleton Loader
 ==========================*/
 
-@keyframes shimmer {
-    0% {
-        background-position: -700px 0;
+    @keyframes shimmer {
+        0% {
+            background-position: -700px 0;
+        }
+
+        100% {
+            background-position: 700px 0;
+        }
     }
 
-    100% {
-        background-position: 700px 0;
+    .skeleton {
+        background: linear-gradient(90deg,
+                rgba(255, 255, 255, .05) 25%,
+                rgba(255, 255, 255, .12) 50%,
+                rgba(255, 255, 255, .05) 75%);
+        background-size: 800px 100%;
+        animation: shimmer 1.5s infinite linear;
+        border-radius: 12px;
     }
-}
 
-.skeleton {
-    background: linear-gradient(90deg,
-            rgba(255, 255, 255, .05) 25%,
-            rgba(255, 255, 255, .12) 50%,
-            rgba(255, 255, 255, .05) 75%);
-    background-size: 800px 100%;
-    animation: shimmer 1.5s infinite linear;
-    border-radius: 12px;
-}
+    .skeleton-card {
+        background: #1b2740;
+        border: 1px solid rgba(255, 255, 255, .08);
+        border-radius: 30px;
+        overflow: hidden;
+    }
 
-.skeleton-card {
-    background: #1b2740;
-    border: 1px solid rgba(255, 255, 255, .08);
-    border-radius: 30px;
-    overflow: hidden;
-}
+    .skeleton-image {
+        width: 100%;
+        height: 220px;
+    }
 
-.skeleton-image {
-    width: 100%;
-    height: 220px;
-}
+    .skeleton-title {
+        height: 28px;
+        width: 60%;
+        margin-bottom: 18px;
+    }
 
-.skeleton-title {
-    height: 28px;
-    width: 60%;
-    margin-bottom: 18px;
-}
+    .skeleton-price {
+        height: 24px;
+        width: 45%;
+        margin-bottom: 25px;
+    }
 
-.skeleton-price {
-    height: 24px;
-    width: 45%;
-    margin-bottom: 25px;
-}
+    .skeleton-line {
+        height: 1px;
+        width: 100%;
+        background: rgba(255, 255, 255, .08);
+        margin: 18px 0;
+    }
 
-.skeleton-line {
-    height: 1px;
-    width: 100%;
-    background: rgba(255, 255, 255, .08);
-    margin: 18px 0;
-}
+    .skeleton-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        margin: auto;
+    }
 
-.skeleton-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    margin: auto;
-}
+    .skeleton-text {
+        width: 55px;
+        height: 12px;
+        margin: 10px auto 0;
+    }
 
-.skeleton-text {
-    width: 55px;
-    height: 12px;
-    margin: 10px auto 0;
-}
+    .skeleton-button {
+        width: 100%;
+        height: 48px;
+        border-radius: 14px;
+    }
 
-.skeleton-button {
-    width: 100%;
-    height: 48px;
-    border-radius: 14px;
-}
+    .post_data {
+        padding: 16px;
+        border: 1px solid #f0f0f0;
+        border-radius: 10px;
+        margin-bottom: 24px;
+        background-color: #fff;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+    }
 
-.post_data {
-    padding: 16px;
-    border: 1px solid #f0f0f0;
-    border-radius: 10px;
-    margin-bottom: 24px;
-    background-color: #fff;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-}
-
-/* ============================
+    /* ============================
 ARTICLE CARD
 ============================ */
 
-.article-card {
+    .article-card {
 
-    background: #1b2740;
+        background: #1b2740;
 
-    border: 1px solid rgba(255, 255, 255, .08);
+        border: 1px solid rgba(255, 255, 255, .08);
 
-    border-radius: 30px;
+        border-radius: 30px;
 
-    overflow: hidden;
+        overflow: hidden;
 
-    transition: .4s;
+        transition: .4s;
 
-    position: relative;
+        position: relative;
 
-}
+    }
 
-.article-card:hover {
+    .article-card:hover {
 
-    transform: translateY(-10px);
+        transform: translateY(-10px);
 
-    border-color: #2dd4bf;
+        border-color: #2dd4bf;
 
-    box-shadow: 0 0 35px rgba(45, 212, 191, .18);
+        box-shadow: 0 0 35px rgba(45, 212, 191, .18);
 
-}
+    }
 
-.article-image {
+    .article-image {
 
-    height: 250px;
+        height: 250px;
 
-    overflow: hidden;
+        overflow: hidden;
 
-}
+    }
 
-.article-image img {
+    .article-image img {
 
-    width: 100%;
+        width: 100%;
 
-    height: 100%;
+        height: 100%;
 
-    object-fit: cover;
+        object-fit: cover;
 
-    transition: .8s;
+        transition: .8s;
 
-}
+    }
 
-.article-card:hover img {
+    .article-card:hover img {
 
-    transform: scale(1.1);
+        transform: scale(1.1);
 
-}
+    }
 
-.article-content {
+    .article-content {
 
-    padding: 25px;
+        padding: 25px;
 
-}
+    }
 
-.article-title {
+    .article-title {
 
-    font-size: 22px;
+        font-size: 22px;
 
-    font-weight: 700;
+        font-weight: 700;
 
-    color: #fff;
+        color: #fff;
 
-    line-height: 1.4;
+        line-height: 1.4;
 
-    margin-bottom: 15px;
+        margin-bottom: 15px;
 
-}
+    }
 
-.article-meta {
+    .article-meta {
 
-    display: flex;
+        display: flex;
 
-    justify-content: space-between;
+        justify-content: space-between;
 
-    color: #94a3b8;
+        color: #94a3b8;
 
-    font-size: 14px;
+        font-size: 14px;
 
-    margin-bottom: 15px;
+        margin-bottom: 15px;
 
-}
+    }
 
-.article-desc {
+    .article-desc {
 
-    color: #94a3b8;
+        color: #94a3b8;
 
-    line-height: 1.8;
+        line-height: 1.8;
 
-    margin-bottom: 20px;
+        margin-bottom: 20px;
 
-}
+    }
 
-.article-tags {
+    .article-tags {
 
-    margin-bottom: 20px;
+        margin-bottom: 20px;
 
-}
+    }
 
-.article-tags span {
+    .article-tags span {
 
-    display: inline-block;
+        display: inline-block;
 
-    background: rgba(45, 212, 191, .15);
+        background: rgba(45, 212, 191, .15);
 
-    color: #2dd4bf;
+        color: #2dd4bf;
 
-    padding: 6px 14px;
+        padding: 6px 14px;
 
-    border-radius: 30px;
+        border-radius: 30px;
 
-    margin-right: 8px;
+        margin-right: 8px;
 
-    margin-bottom: 8px;
+        margin-bottom: 8px;
 
-    font-size: 12px;
+        font-size: 12px;
 
-}
+    }
 
-.article-btn {
+    .article-btn {
 
-    display: inline-flex;
+        display: inline-flex;
 
-    align-items: center;
+        align-items: center;
 
-    gap: 10px;
+        gap: 10px;
 
-    color: #2dd4bf;
+        color: #2dd4bf;
 
-    font-weight: bold;
+        font-weight: bold;
 
-    transition: .3s;
+        transition: .3s;
 
-}
+    }
 
-.article-btn:hover {
+    .article-btn:hover {
 
-    gap: 16px;
+        gap: 16px;
 
-}
+    }
 
-/*======================================
+    /*======================================
 ARTICLE SKELETON
 ======================================*/
 
-.article-skeleton {
+    .article-skeleton {
 
-    background: #1b2740;
+        background: #1b2740;
 
-    border-radius: 30px;
+        border-radius: 30px;
 
-    overflow: hidden;
+        overflow: hidden;
 
-    border: 1px solid rgba(255, 255, 255, .08);
-
-}
-
-.article-skeleton-img {
-
-    width: 100%;
-
-    height: 250px;
-
-    background: linear-gradient(90deg,
-            rgba(255, 255, 255, .05) 25%,
-            rgba(255, 255, 255, .12) 37%,
-            rgba(255, 255, 255, .05) 63%);
-
-    background-size: 400% 100%;
-
-    animation: skeleton-loading 1.4s infinite;
-
-}
-
-.article-skeleton-body {
-
-    padding: 25px;
-
-}
-
-.article-line {
-
-    height: 12px;
-
-    border-radius: 30px;
-
-    margin-bottom: 15px;
-
-    background: linear-gradient(90deg,
-            rgba(255, 255, 255, .05) 25%,
-            rgba(255, 255, 255, .12) 37%,
-            rgba(255, 255, 255, .05) 63%);
-
-    background-size: 400% 100%;
-
-    animation: skeleton-loading 1.4s infinite;
-
-}
-
-.article-line.title {
-
-    height: 22px;
-
-    width: 90%;
-
-}
-
-.article-line.short {
-
-    width: 40%;
-
-}
-
-.article-line.medium {
-
-    width: 70%;
-
-}
-
-.article-line.full {
-
-    width: 100%;
-
-}
-
-@keyframes skeleton-loading {
-
-    0% {
-
-        background-position: 100% 0;
+        border: 1px solid rgba(255, 255, 255, .08);
 
     }
 
-    100% {
+    .article-skeleton-img {
 
-        background-position: -100% 0;
+        width: 100%;
+
+        height: 250px;
+
+        background: linear-gradient(90deg,
+                rgba(255, 255, 255, .05) 25%,
+                rgba(255, 255, 255, .12) 37%,
+                rgba(255, 255, 255, .05) 63%);
+
+        background-size: 400% 100%;
+
+        animation: skeleton-loading 1.4s infinite;
 
     }
 
-}
+    .article-skeleton-body {
+
+        padding: 25px;
+
+    }
+
+    .article-line {
+
+        height: 12px;
+
+        border-radius: 30px;
+
+        margin-bottom: 15px;
+
+        background: linear-gradient(90deg,
+                rgba(255, 255, 255, .05) 25%,
+                rgba(255, 255, 255, .12) 37%,
+                rgba(255, 255, 255, .05) 63%);
+
+        background-size: 400% 100%;
+
+        animation: skeleton-loading 1.4s infinite;
+
+    }
+
+    .article-line.title {
+
+        height: 22px;
+
+        width: 90%;
+
+    }
+
+    .article-line.short {
+
+        width: 40%;
+
+    }
+
+    .article-line.medium {
+
+        width: 70%;
+
+    }
+
+    .article-line.full {
+
+        width: 100%;
+
+    }
+
+    @keyframes skeleton-loading {
+
+        0% {
+
+            background-position: 100% 0;
+
+        }
+
+        100% {
+
+            background-position: -100% 0;
+
+        }
+
+    }
+
+    /* ==========================
+   CLIENT
+========================== */
+
+    .client-slider {
+        overflow: hidden;
+        position: relative;
+    }
+
+    .client-track {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        width: max-content;
+        animation: clientScroll 30s linear infinite;
+        will-change: transform;
+    }
+
+    .client-item {
+        width: 180px;
+        height: 100px;
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #172338;
+        border: 1px solid rgba(255, 255, 255, .08);
+        border-radius: 18px;
+        padding: 20px;
+
+        transition: .3s;
+    }
+
+    .client-item:hover {
+        transform: translateY(-5px);
+        border-color: #2dd4bf;
+    }
+
+    .client-item img {
+        max-width: 100%;
+        max-height: 70px;
+        object-fit: contain;
+
+        filter: brightness(0) invert(1);
+
+        transition: all .35s ease;
+    }
+
+    .client-item:hover img {
+        filter: none;
+    }
+
+    @keyframes clientScroll {
+
+        from {
+            transform: translateX(0);
+        }
+
+        to {
+            transform: translateX(-50%);
+        }
+
+    }
+
+    .client-slider:hover .client-track {
+        animation-play-state: paused;
+    }
+
+    /* ==========================
+   MOBILE
+========================== */
+
+    @media (max-width:768px) {
+
+        .client-slider {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .client-track {
+
+            /* Matikan animasi desktop */
+            animation: none;
+
+            gap: 0;
+
+            width: 100%;
+
+            transition: transform .5s ease;
+
+        }
+
+        .client-item {
+
+            min-width: 100%;
+            width: 100%;
+            flex: 0 0 100%;
+
+            margin: 0;
+
+            padding: 25px;
+
+        }
+
+        .client-item img {
+            max-height: 80px;
+        }
+
+        .promo-title {
+            font-size: 28px;
+            line-height: 1.2;
+            transition: font-size 0.2s ease;
+        }
+
+        .promo-desc {
+            font-size: 22px;
+            line-height: 1.6;
+            transition: font-size 0.2s ease;
+        }
+
+    }
 </style>
 
 <!-- HERO SECTION -->
@@ -349,12 +473,10 @@ ARTICLE SKELETON
                 Mobilitas Modern <br />
                 <span class="text-teal-400">Dengan Pelayanan Premium</span>
             </h1>
-
-            <p class="text-slate-300 text-lg mt-7 leading-relaxed max-w-lg">
+            <p class="text-slate-200 text-lg mt-7 leading-relaxed max-w-lg">
                 Graha Transport melayani rental mobil di Ungaran, Semarang, Bandungan, Ambarawa, Salatiga dan
                 sekitarnya dengan armada nyaman dan driver profesional.
             </p>
-
             <div class="flex flex-wrap gap-4 mt-10">
                 <a href="#armada"
                     class="btn-primary px-8 py-4 rounded-xl font-semibold text-black flex items-center gap-2">
@@ -372,43 +494,39 @@ ARTICLE SKELETON
             <div class="hero-slider shadow-2xl">
                 <div id="heroTrack" class="hero-track">
 
-                    <?php if($banner->num_rows() > 0){ ?>
+                    <?php if ($banner->num_rows() > 0) {
+                        foreach ($banner->result() as $key => $row) {
+                    ?>
 
-                    <?php foreach($banner->result() as $row){ ?>
+                            <img src="<?= base_url('assets/img/baner_slider/' . $row->foto_banner); ?>"
+                                alt="Banner Graha Transport <?= $key + 1; ?>"
+                                <?= $key === 0 ? 'fetchpriority="high"' : 'loading="lazy"'; ?>>
 
-                    <img src="<?= base_url('assets/img/baner_slider/'.$row->foto_banner); ?>"
-                        alt="Banner Graha Transport">
-
-                    <?php } ?>
-
-                    <?php } else { ?>
-
-                    <!-- <img src="<?= base_url('assets/img/baner_slider/default-banner.jpg'); ?>"
-                        alt="Banner Graha Transport"> -->
-
-                    <?php } ?>
+                    <?php
+                        }
+                    } ?>
 
                 </div>
                 <div class="overlay"></div>
                 <div class="dots">
 
                     <?php
-                        $no = 0;
-                        foreach($banner->result() as $row){
+                    if ($banner->num_rows() > 0) {
+                        foreach ($banner->result() as $key => $row) {
                     ?>
 
-                    <div class="dot <?= $no == 0 ? 'active' : ''; ?>" aria-label="Slide <?= $no + 1; ?>">
-                    </div>
+                            <button type="button" class="dot <?= $key === 0 ? 'active' : ''; ?>"
+                                aria-label="Tampilkan Slide <?= $key + 1; ?>">
+                            </button>
 
                     <?php
-                            $no++;
                         }
+                    }
                     ?>
 
                 </div>
             </div>
         </div>
-
     </div>
 </section>
 
@@ -446,64 +564,64 @@ ARTICLE SKELETON
 
                 <div id="promoTrack" class="promo-track">
 
-                    <?php foreach($promo->result() as $row){ ?>
+                    <?php foreach ($promo->result() as $row) { ?>
 
-                    <div class="promo-slide">
+                        <div class="promo-slide">
 
-                        <!-- KIRI -->
-                        <div class="promo-content">
+                            <!-- KIRI -->
+                            <div class="promo-content">
 
-                            <span class="promo-label">
-                                <i class="fa-solid fa-gift"></i>
-                                Promo Spesial
-                            </span>
+                                <span class="promo-label">
+                                    <i class="fa-solid fa-gift"></i>
+                                    <?= $row->tagline ?>
+                                </span>
 
-                            <h2 class="promo-title">
-                                <?= $row->judul_promo ?>
-                            </h2>
+                                <h2 class="promo-title">
+                                    <?= $row->judul_promo ?>
+                                </h2>
 
-                            <p class="promo-desc">
-                                <?= $row->ket_promo ?>
-                            </p>
+                                <p class="promo-desc">
+                                    <?= $row->ket_promo ?>
+                                </p>
 
-                            <div class="flex flex-wrap gap-4 mt-8">
+                                <div class="flex flex-wrap gap-4 mt-8">
 
-                                <a href="https://wa.me/6281327160516" target="_blank"
-                                    class="btn-primary px-8 py-4 rounded-2xl font-bold text-black flex items-center gap-3">
+                                    <a href="https://wa.me/6281327160516" target="_blank"
+                                        class="btn-primary px-8 py-4 rounded-2xl font-bold text-black flex items-center gap-3">
 
-                                    <i class="fa-brands fa-whatsapp"></i>
+                                        <i class="fa-brands fa-whatsapp"></i>
 
-                                    Booking Sekarang
+                                        Booking Sekarang
 
-                                </a>
+                                    </a>
 
-                                <a href="#armada"
-                                    class="px-8 py-4 rounded-2xl border border-white/10 hover:border-teal-400 transition">
+                                    <a href="#armada"
+                                        class="px-8 py-4 rounded-2xl border border-white/10 hover:border-teal-400 transition">
 
-                                    Lihat Armada
+                                        Lihat Armada
 
-                                </a>
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                            <!-- KANAN -->
+
+                            <div class="promo-image">
+
+                                <!-- <span class="promo-badge">
+
+                                DISKON <?= $row->diskon ?>%
+
+                            </span> -->
+
+                                <img src="<?= base_url('assets/img/baner_promo/' . $row->foto_banner); ?>"
+                                    alt="<?= $row->judul_promo; ?>">
 
                             </div>
 
                         </div>
-
-                        <!-- KANAN -->
-
-                        <div class="promo-image">
-
-                            <span class="promo-badge">
-
-                                DISKON <?= $row->diskon ?>%
-
-                            </span>
-
-                            <img src="<?= base_url('assets/img/baner_promo/'.$row->foto_banner); ?>"
-                                alt="<?= $row->judul_promo; ?>">
-
-                        </div>
-
-                    </div>
 
                     <?php } ?>
 
@@ -518,20 +636,17 @@ ARTICLE SKELETON
         <div class="promo-dots flex justify-center gap-3 mt-8">
 
             <?php
-            $i=0;
-            foreach($promo->result() as $row){
+            $i = 0;
+            foreach ($promo->result() as $row) {
             ?>
 
-            <span class="promo-dot <?= $i==0?'active':'';?>"></span>
-
-            <?php
-            $i++;
-            }
-            ?>
+                <button type="button" class="promo-dot <?= $i == 0 ? 'active' : ''; ?>"
+                    aria-label="Tampilkan Promo <?= $i + 1; ?>"></button <?php
+                                                                            $i++;
+                                                                        }
+                                                                            ?> </div>
 
         </div>
-
-    </div>
 
 </section>
 
@@ -546,9 +661,9 @@ ARTICLE SKELETON
             <h2 class="text-4xl md:text-5xl font-bold mb-4">
                 Kenapa Memilih <span class="text-teal-400">Graha Transport?</span>
             </h2>
-            <p class="text-slate-400 max-w-2xl mx-auto text-lg">
-                Pelayanan eksklusif dengan armada premium dan profesionalisme terbaik untuk menjamin kepuasan
-                perjalanan Anda.
+            <p class="text-slate-300 max-w-2xl mx-auto text-lg">
+                Pelayanan eksklusif dengan armada premium dan profesionalisme terbaik untuk menjamin kepuasan perjalanan
+                Anda.
             </p>
         </div>
 
@@ -753,6 +868,50 @@ ARTICLE SKELETON
 </section>
 
 <!-- ============================= -->
+<!-- CLIENT KAMI -->
+<!-- ============================= -->
+
+<!-- CLIENT KAMI -->
+<section id="client" class="py-10 bg-[#0F172A] relative overflow-hidden">
+
+    <div class="max-w-7xl mx-auto px-5">
+
+        <div class="text-center mb-10" data-aos="fade-up">
+            <h2 class="text-4xl font-bold">
+                Dipercaya <span class="text-teal-400">Client Kami</span>
+            </h2>
+
+            <p class="text-slate-300 mt-3">
+                Berbagai instansi, perusahaan dan organisasi telah mempercayakan
+                kebutuhan transportasinya kepada Graha Transport.
+            </p>
+        </div>
+
+        <div class="client-slider pt-3">
+            <div class="client-track">
+
+                <!-- LOOP PERTAMA -->
+                <?php foreach ($client->result() as $key => $row) { ?>
+                    <div class="client-item">
+                        <img src="<?= base_url('assets/img/baner_slider/' . $row->foto_banner); ?>"
+                            alt="Logo Client Graha Transport <?= $key + 1; ?>" loading="lazy">
+                    </div>
+                <?php } ?>
+
+                <!-- LOOP KEDUA (UNTUK EFEK MARQUEE/SLIDER INFINITE) -->
+                <?php foreach ($client->result() as $key => $row) { ?>
+                    <div class="client-item">
+                        <img src="<?= base_url('assets/img/baner_slider/' . $row->foto_banner); ?>"
+                            alt="Logo Client Graha Transport <?= $key + 1; ?>" loading="lazy">
+                    </div>
+                <?php } ?>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================= -->
 <!-- ARTIKEL -->
 <!-- ============================= -->
 
@@ -776,22 +935,14 @@ ARTICLE SKELETON
             </p>
 
         </div>
-
-
-
         <!-- DATA -->
 
         <div id="load_data_berita" class="grid lg:grid-cols-3 md:grid-cols-2 gap-8">
 
         </div>
-
-
-
         <!-- Skeleton -->
 
         <div id="load_data_message_berita"></div>
-
-
 
         <!-- Footer -->
 

@@ -140,6 +140,7 @@ $('.btn-simpan-berita').click(function(e) {
     formData.append('text-berita', $('#code_preview0').summernote('code'));
     formData.append('ceklis-ubah-foto-berita', $('#ceklis-ubah-foto-berita').is(':checked') ? 1 : 0);
     formData.append('judul-berita', $('#judul-berita').val());
+    formData.append('keyword', $('#keyword').val());
     formData.append('meta-desk', $('#meta-desk').val());
     formData.append('tgl-berita', $('#tgl-berita').val());
     formData.append('tag-berita', tagBerita);
@@ -452,7 +453,7 @@ $(document).on('click', '.ceklis-status-artikel', function(e) {
 
     Swal.fire({
         title: 'Apakah Anda yakin?',
-        text: "Status berita akan diubah menjadi: " + value_ceklis,
+        text: "Status berita akan diubah menjadi: Publish &" + value_ceklis,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -475,7 +476,7 @@ $(document).on('click', '.ceklis-status-artikel', function(e) {
                 success: function(response) {
                     Swal.fire(
                         'Berhasil!',
-                        'Status berita berhasil diubah.',
+                        'Status berita berhasil dipublish.',
                         'success'
                     );
 
@@ -606,6 +607,7 @@ $(document).on('click', '.btn-edit-berita', function(e) {
     $('#id-berita').val($(this).data('id-berita'));
     $('#judul-berita').val($(this).data('judul-berita'));
     $('#tgl-berita').val($(this).data('tgl-berita'));
+    $('#keyword').val($(this).data('keyword'));
     $('#meta-desk').val($(this).data('meta-desk'));
     $('#foto-berita').val($(this).data('foto-berita'));
     $('#foto-lama').val($(this).data('foto-berita'));

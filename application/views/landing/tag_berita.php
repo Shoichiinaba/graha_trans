@@ -404,6 +404,32 @@ ARTICLE SKELETON
 
         </div>
 
+        <hr class="border-white/10 my-10">
+
+        <div>
+
+            <h3 class="font-bold text-xl mb-2">
+                Tag Artikel
+            </h3>
+
+            <div class="mt-8 flex flex-wrap justify-left gap-3">
+
+                <?php foreach($semua_tag as $item){ ?>
+
+                <a href="<?= base_url('tag/'.url_title($item,'-',TRUE)); ?>" class="px-4 py-2 rounded-full transition
+           <?= strtolower($item)==strtolower($tag)
+                ? 'bg-teal-400 text-black font-semibold'
+                : 'bg-slate-700 text-slate-300 hover:bg-teal-400 hover:text-black'; ?>">
+
+                    #<?= $item ?>
+
+                </a>
+
+                <?php } ?>
+
+            </div>
+
+        </div>
     </div>
 
 </section>

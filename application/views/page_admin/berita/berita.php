@@ -290,6 +290,12 @@
                                         placeholder="Judul Berita ..." autocomplete="off" required="true">
                                 </div>
 
+                                <label for="nm-perum">Kata Kunci</label>
+                                <div class="form-group">
+                                    <input type="text" id="keyword" class="form-control" placeholder="keyword ..."
+                                        autocomplete="off" required="true">
+                                </div>
+
                                 <label for="nm-perum">Meta Deskripsi</label>
                                 <div class="form-group">
                                     <input type="text" id="meta-desk" class="form-control" placeholder="Deskripsi ..."
@@ -363,8 +369,8 @@
                                 <div class="col-6">
                                     <label for="">Gambar</label>
                                     <div class="input-group">
-                                        <input type="text" id="foto-btn-lama" class="" value="" hidden>
-                                        <input type="file" id="file-foto-btn" class="foto-btn" value="" hidden>
+                                        <input type="text" id="foto-btn-lama" class="" value="">
+                                        <input type="file" id="file-foto-btn" class="foto-btn" value="">
                                         <input type="text" class="form-control pilih-foto-btn" readonly=""
                                             placeholder="Upload Gambar" id="nm-foto-btn">
                                         <div class="input-group-append">
@@ -430,7 +436,7 @@
                         <div class="col-xxl-2 col-lg-3 card-icon"><i class="fa-solid fa-spinner fa-spin-pulse"
                                 style="font-size: 28px;"></i></div>
                         <div class="col-xxl-10 col-lg-9" style="text-align-last: end;">
-                            <p class="mb-0 text-warning" style="letter-spacing: 3px;font-weight: bolder;">Permintaan</p>
+                            <p class="mb-0 text-warning" style="letter-spacing: 3px;font-weight: bolder;">Draft</p>
                             <span id="permintaan" class=" text-warning"></span>
                         </div>
                     </div>
@@ -442,7 +448,7 @@
                         <div class="col-xxl-2 col-lg-3 card-icon"><i class="fa-regular fa-circle-check fa-fade"
                                 style="font-size: 28px;"></i></div>
                         <div class="col-xxl-10 col-lg-9" style="text-align-last: end;">
-                            <p class="mb-0 text-success" style="letter-spacing: 3px;font-weight: bolder;">Terindex</p>
+                            <p class="mb-0 text-success" style="letter-spacing: 3px;font-weight: bolder;">Publish</p>
                             <span id="terindex" class="text-success"></span>
                         </div>
                     </div>

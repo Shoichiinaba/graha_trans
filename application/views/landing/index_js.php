@@ -859,4 +859,77 @@ $(document).ready(function() {
     load_data_berita();
 
 });
+
+const clientTrack = document.querySelector(".client-track");
+
+if (clientTrack) {
+
+    const items = document.querySelectorAll(".client-item");
+
+    let index = 0;
+
+    function clientSlider() {
+
+        if (window.innerWidth <= 768) {
+
+            index++;
+
+            if (index >= items.length) {
+                index = 0;
+            }
+
+            clientTrack.style.transform =
+                `translateX(-${index * 100}%)`;
+
+        } else {
+
+            clientTrack.style.transform = "";
+
+        }
+
+    }
+
+    setInterval(clientSlider, 3000);
+
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    document.querySelectorAll('.promo-title').forEach(function(title) {
+
+        const panjang = title.textContent.trim().length;
+
+        if (panjang <= 25) {
+            title.style.fontSize = '28px';
+        } else if (panjang <= 35) {
+            title.style.fontSize = '24px';
+        } else if (panjang <= 45) {
+            title.style.fontSize = '20px';
+        } else if (panjang <= 55) {
+            title.style.fontSize = '18px';
+        } else {
+            title.style.fontSize = '16px';
+        }
+
+    });
+
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    document.querySelectorAll('.promo-desc').forEach(function(desc) {
+
+        const panjang = desc.textContent.trim().length;
+
+        if (panjang < 35) {
+            desc.style.fontSize = '25px';
+        } else if (panjang <= 70) {
+            desc.style.fontSize = '22px';
+        } else {
+            desc.style.fontSize = '20px';
+        }
+
+    });
+
+});
 </script>

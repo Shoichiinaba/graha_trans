@@ -92,10 +92,27 @@ class Kelola_banner extends AUTH_Controller
                             .$ban->judul_promo.
                         '</h3>';
 
-                if($ban->type_banner == 'promo'){
-                    $output .= '<p class="text-muted mb-3">'
-                                .$ban->ket_promo.
-                            '</p>';
+                if ($ban->type_banner == 'promo') {
+
+                    $output .= '
+                        <p class="text-muted mb-2">
+                            '.$ban->ket_promo.'
+                        </p>';
+
+                    // =========================
+                    // TAGLINE
+                    // Hanya tampil jika PROMO
+                    // =========================
+                    if (!empty(trim($ban->tagline))) {
+
+                        $output .= '
+                            <div class="mb-3">
+                                <span class="badge bg-success px-2 py-1 rounded-3">
+                                    <i class="bx bx-purchase-tag-alt me-0"></i>
+                                    '.$ban->tagline.'
+                                </span>
+                            </div>';
+                    }
                 }
 
                 $output .= '<small class="banner-date text-muted">
@@ -125,6 +142,7 @@ class Kelola_banner extends AUTH_Controller
                                 data-id_unit="'.$ban->id_unit.'"
                                 data-type_banner="'.$ban->type_banner.'"
                                 data-judul="'.$ban->judul_promo.'"
+                                data-tagline="'.$ban->tagline.'"
                                 data-ket="'.$ban->ket_promo.'"
                                 data-diskon="'.$ban->diskon.'"
                                 data-foto="'.$ban->foto_banner.'">
@@ -167,6 +185,7 @@ class Kelola_banner extends AUTH_Controller
 
         $id_unit      = $this->input->post('id_unit');
         $judul_promo  = $this->input->post('judul_promo');
+        $tagline      = $this->input->post('tagline');
         $ket_promo    = $this->input->post('ket_promo');
         $diskon       = $this->input->post('diskon');
 
@@ -231,10 +250,10 @@ class Kelola_banner extends AUTH_Controller
 
         }else{
 
-            $data['id_unit']=NULL;
-            $data['judul_promo']=NULL;
-            $data['ket_promo']=NULL;
-            $data['diskon']=NULL;
+            // $data['id_unit']=NULL;
+            // $data['judul_promo']=NULL;
+            // $data['ket_promo']=NULL;
+            // $data['diskon']=NULL;
 
         }
 
@@ -330,18 +349,18 @@ class Kelola_banner extends AUTH_Controller
 
             $data["id_unit"]=$this->input->post("id_unit");
             $data["judul_promo"]=$this->input->post("judul_promo");
+            $data["tagline"]=$this->input->post("tagline");
             $data["ket_promo"]=$this->input->post("ket_promo");
             $data["diskon"]=$this->input->post("diskon");
 
         }else{
 
-            $data["id_unit"]=NULL;
-            $data["judul_promo"]=NULL;
-            $data["ket_promo"]=NULL;
-            $data["diskon"]=NULL;
+            // $data["id_unit"]=NULL;
+            // $data["judul_promo"]=NULL;
+            // $data["ket_promo"]=NULL;
+            // $data["diskon"]=NULL;
 
         }
-
 
         // folder lama
 

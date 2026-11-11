@@ -390,10 +390,6 @@ class Kelola_unit extends AUTH_Controller
             }
         }
 
-        // Jika tidak upload gambar baru,
-        // kolom gambar tidak diubah sehingga
-        // gambar lama tetap dipakai.
-
         $this->Unit_model->update_unit($id_unit, $data);
 
         echo json_encode([

@@ -184,6 +184,35 @@
     border-color: rgba(255, 255, 255, .1);
     margin: 35px 0;
 }
+
+/* Ukuran gambar */
+.btn-image {
+    width: 212px;
+    max-width: 100%;
+    height: auto;
+    transition: .3s ease;
+    display: block;
+}
+
+.btn-image:hover {
+    transform: scale(1.03);
+}
+
+/* Tombol */
+.btn-gradient {
+    background: linear-gradient(90deg, #2dd4bf, #22d3ee);
+    color: #000;
+    font-weight: 600;
+    padding: 5px 5px;
+    border: none;
+    transition: .3s;
+    border-radius: 8px;
+}
+
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    color: #000;
+}
 </style>
 
 
@@ -303,9 +332,9 @@ CONTENT
                     bg-[#13233b]
                     rounded-[25px]
                     border border-white/10
-                    p-5">
+                    p-3">
 
-                    <div class="flex items-center gap-3 mb-6">
+                    <div class="flex items-center gap-3 mb-2">
 
                         <div class="w-10 h-10
                             rounded-xl
@@ -329,11 +358,11 @@ CONTENT
 
                     <a href="<?= site_url('Artikel/'.url_title($row->judul_berita,'-',TRUE)); ?>">
 
-                        <div class="group mb-5">
+                        <div class="group mb-3">
 
                             <img src="<?= base_url('assets/img/berita/'.$row->foto_berita)?>" class="rounded-xl
                                 w-full
-                                h-32
+                                h-25
                                 object-cover
                                 group-hover:scale-105
                                 transition duration-500">
@@ -444,31 +473,33 @@ CONTENT
 
                     <!-- BUTTON -->
 
-                    <?php if(!empty($item['link_btn'])){ ?>
+                    <?php if (!empty($item['link_btn'])) : ?>
 
-                    <div class="mt-10">
+                    <div class="mt-0 p-0 flex justify-center items-center">
 
-                        <a href="<?= $item['link_btn']; ?>" target="_blank"
-                            class="inline-flex
-                    items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 text-black font-bold hover:scale-105 transition">
+                        <?php if (!empty($item['file_foto_btn'])) : ?>
 
-                            Lihat Selengkapnya
-
-                            <i class="fa-solid fa-arrow-right"></i>
-
+                        <a href="<?= $item['link_btn']; ?>" target="_blank" class="inline-block">
+                            <img src="<?= base_url('assets/img/berita/' . $item['file_foto_btn']); ?>" alt="Banner"
+                                class="btn-image">
                         </a>
 
-                    </div>
+                        <?php else : ?>
 
-                    <?php } ?>
+                        <a href="<?= $item['link_btn']; ?>" target="_blank" class="btn btn-gradient rounded-pill">
+                            Lihat Selengkapnya
+                            <i class="fa-solid fa-arrow-right ms-2"></i>
+
+                        </a>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
 
                 </article>
 
                 <?php } ?>
+
                 <hr class="border-white/10 my-10">
-
-
-                <!-- TAG -->
 
                 <div>
 
@@ -477,22 +508,27 @@ CONTENT
                     </h3>
 
                     <?php
-                        $tag = explode(',', $berita->tag_berita);
 
-                        foreach($tag as $t){
+                        $tagAktif = array_map('trim', explode(',', $berita->tag_berita));
 
-                            $namaTag = trim($t);
-                        ?>
+                        foreach($semua_tag as $tag){
 
-                    <a href="<?= base_url('tag/'.url_title($namaTag,'-',TRUE)); ?>"
-                        class="inline-flex items-center bg-teal-400/10 hover:bg-teal-400 hover:text-black text-teal-300 px-4 py-2 rounded-full mr-2 mb-2 transition duration-300">
-                        #
-                        <?= $namaTag; ?>
+                            $aktif = in_array($tag, $tagAktif);
+                    ?>
+
+                    <a href="<?= base_url('tag/'.url_title($tag,'-',TRUE)); ?>" class="inline-flex items-center px-4 py-2 rounded-full mr-2 mb-2 transition duration-300
+                        <?= $aktif
+                            ? 'bg-teal-400 text-black font-semibold'
+                            : 'bg-slate-700 text-slate-300 hover:bg-teal-400 hover:text-black'; ?>">
+
+                        #<?= $tag ?>
+
                     </a>
 
                     <?php } ?>
 
                 </div>
+
                 <hr class="border-white/10 my-10">
                 <h3 class="text-xl font-bold mb-6">
 
@@ -534,9 +570,9 @@ CONTENT
                     bg-[#13233b]
                     rounded-[25px]
                     border border-white/10
-                    p-5">
+                    p-3">
 
-                    <div class="flex items-center gap-3 mb-6">
+                    <div class="flex items-center gap-3 mb-2">
 
                         <div class="w-10 h-10
                             rounded-xl
@@ -561,11 +597,11 @@ CONTENT
 
                     <a href="<?= site_url('Artikel/'.url_title($row->judul_berita,'-',TRUE)); ?>">
 
-                        <div class="group mb-5">
+                        <div class="group mb-3">
 
                             <img src="<?= base_url('assets/img/berita/'.$row->foto_berita)?>" class="rounded-xl
                                 w-full
-                                h-32
+                                h-25
                                 object-cover
                                 group-hover:scale-105
                                 transition">

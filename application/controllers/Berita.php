@@ -48,10 +48,10 @@ class Berita extends AUTH_Controller
         if ($data_berita->num_rows() > 0) {
             foreach ($data_berita->result() as $data) {
                 $judul_berita = $data->judul_berita;
-                $tittle_news = preg_replace("![^a-z0-9]+!i", "+", $judul_berita);
-                $tittle_ = preg_replace("![^a-z0-9]+!i", "-", $judul_berita);
+                $tittle_news = preg_replace("![^a-z0-9]+!i", "+", strtolower($judul_berita));
+                $tittle_     = preg_replace("![^a-z0-9]+!i", "-", strtolower($judul_berita));
 
-                $clean_url = str_replace('admin.', '', base_url('Artikel/page/' . $tittle_));
+                $clean_url = str_replace('admin.', '', base_url('Artikel/' . $tittle_));
 
                 $output .= '
                 <div class="accordion mt-2 shadow" id="accordionExample">
@@ -86,7 +86,7 @@ class Berita extends AUTH_Controller
                                             type="checkbox" data-id-berita="' . $data->id_berita . '"
                                             id="ceklis-Permintaan' . $data->id_berita . '" value="Permintaan">
                                         <label for="ceklis-Permintaan' . $data->id_berita . '" class="custom-control-label"
-                                            style="font-size: xx-small;">Permintaan</label>
+                                            style="font-size: xx-small;">Draft</label>
                                     </div>
                                 </div>
                                 <div class="form-group me-3">
@@ -95,7 +95,7 @@ class Berita extends AUTH_Controller
                                             type="checkbox" data-id-berita="' . $data->id_berita . '"
                                             id="ceklis-Terindex' . $data->id_berita . '" value="Terindex">
                                         <label for="ceklis-Terindex' . $data->id_berita . '" class="custom-control-label"
-                                            style="font-size: xx-small;">Terindex</label>
+                                            style="font-size: xx-small;">Publish</label>
                                     </div>
                                 </div>
                                 <div class="form-group me-3">
@@ -121,6 +121,7 @@ class Berita extends AUTH_Controller
                                             data-id-berita="' . $data->id_berita . '"
                                             data-judul-berita="' . $data->judul_berita . '"
                                             data-tgl-berita="' . $data->tgl_berita . '"
+                                            data-keyword="' . $data->keyword . '"
                                             data-meta-desk="' . $data->meta_desk . '"
                                             data-tag-berita="' . $data->tag_berita . '"
                                             data-foto-berita="' . $data->foto_berita . '"
@@ -220,7 +221,7 @@ class Berita extends AUTH_Controller
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $data) {
-                unlink('./assets/img/berita/meta_berita' . $berita->meta_foto);
+                unlink('./assets/img/berita/meta_berita/' . $berita->meta_foto);
                 unlink('./assets/img/berita/' . $data->file_foto_berita);
                 $data_berita_id = $data->data_berita_id;
                 echo $data_berita_id;
@@ -278,7 +279,9 @@ class Berita extends AUTH_Controller
         $judul_berita = $this->input->post('judul-berita');
         $tgl_berita = $this->input->post('tgl-berita');
         $meta_desk = $this->input->post('meta-desk');
+        $keyword = $this->input->post('keyword');
         $tag_berita = $this->input->post('tag-berita');
+        $status_berita = 'Permintaan';
         $config['upload_path'] = "./assets/img/berita/";
         $config['allowed_types'] = 'gif|jpg|png';
         $config['encrypt_name'] = TRUE;
@@ -292,43 +295,106 @@ class Berita extends AUTH_Controller
             $this->resizeImage($uploadedImage['file_name']);
         }
 
-        $insert = $this->M_berita->m_simpan_data_berita($judul_berita, $tgl_berita, $meta_desk, $tag_berita,  $foto_berita);
-        echo json_encode($insert);
+        $insert = $this->M_berita->m_simpan_data_berita($judul_berita, $tgl_berita, $keyword, $meta_desk, $tag_berita, $status_berita, $foto_berita);
+
+        if ($insert) {
+
+            // Generate sitemap otomatis
+            $this->generate_sitemap();
+
+            echo json_encode([
+                'status' => true
+            ]);
+
+        } else {
+
+            echo json_encode([
+                'status' => false
+            ]);
+        }
     }
 
-    function edit_data_berita()
+    public function edit_data_berita()
     {
         $ceklis_ubah_foto_berita = $this->input->post('ceklis-ubah-foto-berita');
 
         if ($ceklis_ubah_foto_berita == 1) {
-            $foto_lama = $this->input->post('foto-lama');
-            unlink('./assets/img/berita/' . $foto_lama);
 
-            $config['upload_path'] = "./assets/img/berita/";
-            $config['allowed_types'] = 'gif|jpg|png|jpeg';
-            $config['encrypt_name'] = TRUE;
+            $foto_lama = $this->input->post('foto-lama');
+
+            if (!empty($foto_lama) && file_exists('./assets/img/berita/' . $foto_lama)) {
+                unlink('./assets/img/berita/' . $foto_lama);
+            }
+
+            $config['upload_path']   = "./assets/img/berita/";
+            $config['allowed_types'] = 'gif|jpg|jpeg|png';
+            $config['encrypt_name']  = TRUE;
 
             $this->load->library('upload', $config);
 
             if ($this->upload->do_upload("foto-berita")) {
+
                 $upload_data = $this->upload->data();
+
                 $foto_berita = $upload_data['file_name'];
 
+                // Resize gambar
                 $this->resizeImage($upload_data['file_name']);
+
+            } else {
+
+                echo json_encode([
+                    'status'  => false,
+                    'message' => strip_tags($this->upload->display_errors())
+                ]);
+                return;
+
             }
+
         } else {
+
             $foto_berita = $this->input->post('foto-lama');
+
         }
 
-        $id_berita = $this->input->post('id-berita');
-        $judul_berita = $this->input->post('judul-berita');
-        $tgl_berita = $this->input->post('tgl-berita');
-        $meta_desk = $this->input->post('meta-desk');
-        $tag_berita = $this->input->post('tag-berita');
+        $id_berita     = $this->input->post('id-berita');
+        $judul_berita  = $this->input->post('judul-berita');
+        $tgl_berita    = $this->input->post('tgl-berita');
+        $keyword       = $this->input->post('keyword');
+        $meta_desk     = $this->input->post('meta-desk');
+        $tag_berita    = $this->input->post('tag-berita');
 
-        $update = $this->M_berita->m_edit_data_foto_berita($id_berita, $judul_berita, $tgl_berita, $meta_desk, $tag_berita, $foto_berita);
+        $update = $this->M_berita->m_edit_data_foto_berita(
+            $id_berita,
+            $judul_berita,
+            $tgl_berita,
+            $keyword,
+            $meta_desk,
+            $tag_berita,
+            $foto_berita
+        );
 
-        echo json_encode($update);
+        if ($update) {
+
+            // ==========================
+            // Generate sitemap otomatis
+            // ==========================
+            $this->generate_sitemap();
+            $this->generate_rss();
+
+            echo json_encode([
+                'status' => true,
+                'message' => 'Berita berhasil diperbarui.'
+            ]);
+
+        } else {
+
+            echo json_encode([
+                'status' => false,
+                'message' => 'Gagal memperbarui berita.'
+            ]);
+
+        }
     }
 
     function add_meta_foto()
@@ -341,11 +407,11 @@ class Berita extends AUTH_Controller
             foreach ($query->result() as $meta) {
                 if ($meta->meta_foto == '') {
                 } else {
-                    unlink('./assets/img/berita/meta_berita' . $meta->meta_foto);
+                    unlink('./assets/img/berita/meta_berita/' . $meta->meta_foto);
                 }
             }
         }
-        $config['upload_path'] = "./assets/img/berita/meta_berita";
+        $config['upload_path'] = "./assets/img/berita/meta_berita/";
         $config['allowed_types'] = 'gif|jpg|png';
         $config['encrypt_name'] = TRUE;
 
@@ -362,13 +428,41 @@ class Berita extends AUTH_Controller
         echo json_encode($update);
     }
 
-    function delete_data_berita()
+    public function delete_data_berita()
     {
-        $foto_lama = $this->input->post('foto-berita');
-        unlink('./assets/img/berita/' . $foto_lama);
         $id_berita = $this->input->post('id-berita');
+        $foto_lama = $this->input->post('foto-berita');
+
+        // Hapus file gambar jika ada
+        if (!empty($foto_lama) && file_exists('./assets/img/berita/' . $foto_lama)) {
+            unlink('./assets/img/berita/' . $foto_lama);
+        }
+
+        // Hapus data dari database
+
         $delete = $this->M_berita->m_delete_berita($id_berita);
-        echo json_encode($delete);
+
+        $this->db->reset_query();
+
+        if ($delete) {
+
+            // Generate sitemap terbaru
+            $this->generate_sitemap();
+            $this->generate_rss();
+
+            echo json_encode([
+                'status'  => true,
+                'message' => 'Berita berhasil dihapus.'
+            ]);
+
+        } else {
+
+            echo json_encode([
+                'status'  => false,
+                'message' => 'Berita gagal dihapus.'
+            ]);
+
+        }
     }
 
     function add_view_berita()
@@ -415,8 +509,8 @@ class Berita extends AUTH_Controller
 
     function resizeImage_meta($filename)
     {
-        $source_path = 'assets/img/berita/meta_berita' . $filename;
-        $target_path = 'assets/img/berita/meta_berita';
+        $source_path = 'assets/img/berita/meta_berita/' . $filename;
+        $target_path = 'assets/img/berita/meta_berita/';
         $config = [
             'image_library' => 'gd2',
             'source_image' => $source_path,
@@ -462,7 +556,7 @@ class Berita extends AUTH_Controller
                 if (empty($data->meta_foto)) {
                     echo '<img id="preview-foto-meta-berita" src="https://media.istockphoto.com/id/1365197728/id/vektor/tambahkan-plus-tombol-cross-round-medis-ikon-vektor-3d-gaya-kartun-minimal.jpg?s=612x612&w=0&k=20&c=NKmTHM4TqtP5AuSrB779A6iMvktncz9t33fspLQWxlQ=" class="img-grid-news">';
                 } else {
-                    echo '<img id="preview-foto-meta-berita" src="' . base_url("assets/img/berita/meta_berita" . $data->meta_foto) . '" class="img-grid-news">';
+                    echo '<img id="preview-foto-meta-berita" src="' . base_url("assets/img/berita/meta_berita/" . $data->meta_foto) . '" class="img-grid-news">';
                 }
             }
         } else {
@@ -470,18 +564,33 @@ class Berita extends AUTH_Controller
         }
     }
 
-
-    function validasi_index()
+    public function validasi_index()
     {
-        $id_berita = $this->input->post('id-berita');
+        $id_berita     = $this->input->post('id-berita');
         $status_berita = $this->input->post('status-berita');
 
         $update = $this->M_berita->m_validasi_index($id_berita, $status_berita);
 
         if ($update) {
-            echo json_encode(['status' => 'success', 'message' => 'Data berhasil diperbarui']);
+
+            // ==========================
+            // Generate sitemap terbaru
+            // ==========================
+            $this->generate_sitemap();
+            $this->generate_rss();
+
+            echo json_encode([
+                'status'  => 'success',
+                'message' => 'Data berhasil diperbarui'
+            ]);
+
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'Gagal memperbarui data']);
+
+            echo json_encode([
+                'status'  => 'error',
+                'message' => 'Gagal memperbarui data'
+            ]);
+
         }
     }
 
@@ -515,5 +624,114 @@ class Berita extends AUTH_Controller
 
         echo json_encode($data);
     }
+
+   private function generate_sitemap()
+    {
+        // Reset Query Builder
+        $this->db->reset_query();
+
+        // Ambil semua berita yang sudah terindex
+        $berita = $this->db
+            ->select('judul_berita, tgl_berita')
+            ->from('berita')
+            ->where('status_berita', 'Terindex')
+            ->order_by('tgl_berita', 'DESC')
+            ->get()
+            ->result();
+
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
+$xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL;
+
+    // Homepage
+    $xml .= '
+    <url>
+        <loc>' . base_url() . '</loc>
+        <lastmod>' . date('Y-m-d') . '</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>';
+
+    foreach ($berita as $row) {
+
+    $slug = url_title($row->judul_berita, '-', TRUE);
+
+    $xml .= '
+    <url>
+        <loc>' . base_url('Artikel/' . $slug) . '</loc>
+        <lastmod>' . date('Y-m-d', strtotime($row->tgl_berita)) . '</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>';
+    }
+
+    $xml .= PHP_EOL . '
+</urlset>';
+
+// Tulis ulang file sitemap
+if (file_exists(FCPATH . 'sitemap.xml')) {
+unlink(FCPATH . 'sitemap.xml');
+}
+
+file_put_contents(FCPATH . 'sitemap.xml', $xml, LOCK_EX);
+
+clearstatcache();
+}
+
+private function generate_rss()
+{
+$this->db->reset_query();
+
+$berita = $this->db
+->where('status_berita', 'Terindex')
+->order_by('tgl_berita', 'DESC')
+->limit(30)
+->get('berita')
+->result();
+
+$rss = '
+<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
+$rss .= '<rss version="2.0">' . PHP_EOL;
+    $rss .= '<channel>' . PHP_EOL;
+
+        $rss .= '<title>Graha Transport</title>';
+        $rss .= '
+        <link>' . base_url() . '</link>';
+        $rss .= '<description>Artikel terbaru Graha Transport</description>';
+        $rss .= '<language>id-ID</language>';
+        $rss .= '<lastBuildDate>' . date(DATE_RSS) . '</lastBuildDate>';
+
+        foreach ($berita as $row) {
+
+        $slug = url_title($row->judul_berita, '-', TRUE);
+
+        $rss .= '<item>';
+
+            $rss .= '<title>
+                <![CDATA[' . $row->judul_berita . ']]>
+            </title>';
+
+            $rss .= '
+            <link>' . base_url('Artikel/' . $slug) . '</link>';
+
+            $rss .= '<guid>' . base_url('Artikel/' . $slug) . '</guid>';
+
+            $rss .= '<pubDate>' . date(DATE_RSS, strtotime($row->tgl_berita)) . '</pubDate>';
+
+            $rss .= '<description>
+                <![CDATA[' . $row->meta_desk . ']]>
+            </description>';
+
+            $rss .= '
+        </item>';
+        }
+
+        $rss .= '
+    </channel>';
+    $rss .= '</rss>';
+
+file_put_contents(FCPATH . 'rss.xml', $rss, LOCK_EX);
+
+clearstatcache();
+}
 
 }
