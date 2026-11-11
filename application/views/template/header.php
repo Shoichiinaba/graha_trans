@@ -25,8 +25,10 @@
 
     <meta name="description" content="" />
 
-    <!-- Favicon -->
+    <!-- Favicon & PWA Manifest -->
     <link rel="icon" type="image/x-icon" href="<?= base_url('assets'); ?>/img/logo/A.png" />
+    <link rel="manifest" href="<?= base_url('site.webmanifest'); ?>" />
+    <meta name="theme-color" content="#1A44B2" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

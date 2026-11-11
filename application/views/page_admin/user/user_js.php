@@ -39,6 +39,7 @@
                                 <datalist id="datalistOptions">
                                     <option value="Admin"></option>
                                     <option value="Owner"></option>
+                                    <option value="admin_oprational"></option>
                                 </datalist>
                             </div>
                         </div>
@@ -109,6 +110,7 @@
                                 <datalist id="editDatalistOptions">
                                     <option value="Admin"></option>
                                     <option value="Owner"></option>
+                                    <option value="admin_oprational"></option>
                                 </datalist>
                             </div>
                         </div>

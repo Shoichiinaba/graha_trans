@@ -8,6 +8,7 @@ class Berita extends AUTH_Controller
     function __construct()
     {
         parent::__construct();
+        $this->require_roles(array('Admin', 'Owner'));
         $this->load->model('M_berita');
     }
 

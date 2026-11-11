@@ -8,6 +8,7 @@ class Kelola_banner extends AUTH_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->require_roles(array('Admin', 'Owner'));
         $this->load->model('Banner_model');
     }
 

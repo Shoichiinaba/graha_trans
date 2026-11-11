@@ -1,4 +1,8 @@
 <!-- Menu -->
+<?php
+$user_position = isset($userdata->position) ? strtolower(trim($userdata->position)) : '';
+$is_operational = ($user_position === 'admin_oprational');
+?>
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
         <a href="<?php echo site_url('Dashboard'); ?>" class="app-brand-link">
@@ -22,46 +26,73 @@
             </a>
         </li>
 
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Operasional Rental</span>
+        </li>
+
+        <li class="menu-item <?php echo ($this->uri->segment(1) == 'Sewa_mobil') ? 'active' : ''; ?>">
+            <a href="<?php echo site_url('Sewa_mobil'); ?>" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-receipt"></i>
+                <div data-i18n="Sewa Mobil">Manajemen Sewa</div>
+            </a>
+        </li>
+
+        <li class="menu-item <?php echo ($this->uri->segment(1) == 'Kontrak') ? 'active' : ''; ?>">
+            <a href="<?php echo site_url('Kontrak'); ?>" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-file"></i>
+                <div data-i18n="Kontrak Sewa">Kontrak Sewa</div>
+            </a>
+        </li>
+
         <li class="menu-item <?php echo ($this->uri->segment(1) == 'Kelola_unit') ? 'active' : ''; ?>">
             <a href="<?php echo site_url('Kelola_unit'); ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-car"></i>
-                <div data-i18n="Analytics">Kelola Unit</div>
+                <div data-i18n="Kelola Unit">Kelola Unit</div>
             </a>
+        </li>
+
+        <?php
+        $ci_sb =& get_instance();
+        if (!isset($ci_sb->Sewa_model)) {
+            $ci_sb->load->model('Sewa_model');
+        }
+        $ci_sb->load->helper('rental');
+        $sb_overdue_count = count($ci_sb->Sewa_model->get_overdue());
+        ?>
+        <li class="menu-item <?php echo ($this->uri->segment(1) == 'Notifikasi') ? 'active' : ''; ?>">
+            <a href="<?php echo site_url('Notifikasi'); ?>" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-bell"></i>
+                <div data-i18n="Notifikasi HP">Notifikasi HP</div>
+                <span id="sidebar-overdue-badge" class="badge rounded-pill bg-danger ms-auto <?= $sb_overdue_count === 0 ? 'd-none' : ''; ?>"><?= $sb_overdue_count; ?></span>
+            </a>
+        </li>
+
+        <?php if (!$is_operational) : ?>
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Konten &amp; Sistem</span>
         </li>
 
         <li class="menu-item <?php echo ($this->uri->segment(1) == 'Kelola_banner') ? 'active' : ''; ?>">
             <a href="<?php echo site_url('Kelola_banner'); ?>" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-landscape'></i>
-                <div data-i18n="Analytics">Kelola Banner</div>
+                <div data-i18n="Kelola Banner">Kelola Banner</div>
             </a>
         </li>
 
         <li class="menu-item <?php echo ($this->uri->segment(1) == 'Berita') ? 'active' : ''; ?>">
             <a href="<?php echo site_url('Berita'); ?>" class="menu-link">
                 <i class='menu-icon tf-icons bx bxs-news'></i>
-                <div data-i18n="Analytics">Kelola Article</div>
+                <div data-i18n="Kelola Article">Kelola Article</div>
             </a>
         </li>
-
-        <!-- <li class="menu-item <?php echo ($this->uri->segment(1) == 'Kelola_video') ? 'active' : ''; ?>">
-            <a href="<?php echo site_url('Kelola_video'); ?>" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-video-recording"></i>
-                <div data-i18n="Analytics">Kelola Videos</div>
-            </a>
-        </li> -->
 
         <li class="menu-item <?php echo ($this->uri->segment(1) == 'Kelola_user') ? 'active' : ''; ?>">
             <a href="<?php echo site_url('Kelola_user'); ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-user-account"></i>
-                <div data-i18n="Analytics">Kelola Admin</div>
+                <div data-i18n="Kelola Admin">Kelola Admin</div>
             </a>
         </li>
-        <!-- <li class="menu-item <?php echo ($this->uri->segment(1) == 'Api_keys') ? 'active' : ''; ?>">
-            <a href="<?php echo site_url('Api_keys'); ?>" class="menu-link">
-                <i class='menu-icon tf-icons bx bx-key'></i>
-                <div data-i18n="Analytics">Buat API Key</div>
-            </a>
-        </li> -->
+        <?php endif; ?>
     </ul>
 
 </aside>

@@ -8,12 +8,14 @@ class Dashboard extends AUTH_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('Sewa_model');
+        $this->load->helper('rental');
     }
 
     public function index()
     {
-        $data['tittle']         = 'Graha Transportasi | Dashboard';
-        $data['userdata']       = $this->userdata;
+        $data['tittle']       = 'Graha Transportasi | Dashboard';
+        $data['userdata']     = $this->userdata;
         $data['total_unit']   = $this->db->count_all('unit_mobil');
 
         $data['unit_ready'] = $this->db
@@ -27,8 +29,13 @@ class Dashboard extends AUTH_Controller
         $data['unit_service'] = $this->db
             ->where('status', 'service')
             ->count_all_results('unit_mobil');
-        $data['content']        = 'page_admin/dashboard/dashboard';
-        $data['script']         = 'page_admin/dashboard/dashboard_js';
+
+        $data['sewa_summary'] = $this->Sewa_model->get_summary(array('bulan' => date('Y-m')));
+        $data['overdue_list'] = $this->Sewa_model->get_overdue();
+        $data['kontrak_aktif'] = $this->db->where('status_kontrak', 'Aktif')->count_all_results('rental_kontrak');
+
+        $data['content']      = 'page_admin/dashboard/dashboard';
+        $data['script']       = 'page_admin/dashboard/dashboard_js';
         $this->load->view($this->template, $data);
     }
 
