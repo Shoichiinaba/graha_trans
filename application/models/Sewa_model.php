@@ -689,4 +689,192 @@ class Sewa_model extends CI_Model
         }
         return true;
     }
+
+    /**
+     * Statistik tren bulanan (omset, laba bersih, dan jumlah unit tersewa) untuk N bulan terakhir.
+     */
+    public function get_monthly_trend($months = 6)
+    {
+        $months = max(2, min(12, (int) $months));
+        $base_first = strtotime(date('Y-m-01'));
+        $start_date = date('Y-m-01', strtotime('-' . ($months - 1) . ' months', $base_first));
+        $end_date   = date('Y-m-t', $base_first);
+
+        $short_months = array(
+            1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
+            5 => 'Mei', 6 => 'Jun', 7 => 'Jul', 8 => 'Ags',
+            9 => 'Sep', 10 => 'Okt', 11 => 'Nov', 12 => 'Des'
+        );
+
+        $buckets = array();
+        for ($i = $months - 1; $i >= 0; $i--) {
+            $ts = strtotime('-' . $i . ' months', $base_first);
+            $ym = date('Y-m', $ts);
+            $m_idx = (int) date('n', $ts);
+            $buckets[$ym] = array(
+                'ym'           => $ym,
+                'label'        => $short_months[$m_idx] . ' ' . date('Y', $ts),
+                'omset'        => 0,
+                'laba'         => 0,
+                'unit_garasi'  => 0,
+                'unit_luar'    => 0,
+                'jumlah_unit'  => 0,
+                'count_garasi' => 0,
+                'count_luar'   => 0
+            );
+        }
+
+        $rows = $this->db
+            ->select("DATE_FORMAT(tanggal_mulai, '%Y-%m') AS ym, "
+                . "COALESCE(SUM(total_masuk), 0) AS omset, "
+                . "COALESCE(SUM(unit_garasi), 0) AS unit_garasi, "
+                . "COALESCE(SUM(unit_luar), 0) AS unit_luar, "
+                . "COUNT(*) AS jumlah_unit, "
+                . "SUM(CASE WHEN asal_unit = 'garasi' THEN 1 ELSE 0 END) AS count_garasi, "
+                . "SUM(CASE WHEN asal_unit = 'luar' THEN 1 ELSE 0 END) AS count_luar")
+            ->from('rental_transaksi')
+            ->where('tanggal_mulai >=', $start_date)
+            ->where('tanggal_mulai <=', $end_date)
+            ->group_by("DATE_FORMAT(tanggal_mulai, '%Y-%m')")
+            ->get()
+            ->result();
+
+        foreach ($rows as $r) {
+            if (isset($buckets[$r->ym])) {
+                $ug = (float) $r->unit_garasi;
+                $ul = (float) $r->unit_luar;
+                $buckets[$r->ym]['omset']        = (float) $r->omset;
+                $buckets[$r->ym]['unit_garasi']  = $ug;
+                $buckets[$r->ym]['unit_luar']    = $ul;
+                $buckets[$r->ym]['laba']         = $ug + $ul;
+                $buckets[$r->ym]['jumlah_unit']  = (int) $r->jumlah_unit;
+                $buckets[$r->ym]['count_garasi'] = (int) $r->count_garasi;
+                $buckets[$r->ym]['count_luar']   = (int) $r->count_luar;
+            }
+        }
+
+        $out = array(
+            'labels'       => array(),
+            'months'       => array(),
+            'omset'        => array(),
+            'laba'         => array(),
+            'unit_garasi'  => array(),
+            'unit_luar'    => array(),
+            'jumlah_unit'  => array(),
+            'count_garasi' => array(),
+            'count_luar'   => array()
+        );
+        foreach ($buckets as $b) {
+            $out['labels'][]       = $b['label'];
+            $out['months'][]       = $b['ym'];
+            $out['omset'][]        = $b['omset'];
+            $out['laba'][]         = $b['laba'];
+            $out['unit_garasi'][]  = $b['unit_garasi'];
+            $out['unit_luar'][]    = $b['unit_luar'];
+            $out['jumlah_unit'][]  = $b['jumlah_unit'];
+            $out['count_garasi'][] = $b['count_garasi'];
+            $out['count_luar'][]   = $b['count_luar'];
+        }
+        return $out;
+    }
+
+    /**
+     * Perbandingan harian tanggal 1..31 antara bulan ini dan bulan lalu.
+     */
+    public function get_daily_comparison()
+    {
+        $curr_ts = strtotime(date('Y-m-01'));
+        $prev_ts = strtotime('-1 month', $curr_ts);
+
+        $curr_ym = date('Y-m', $curr_ts);
+        $prev_ym = date('Y-m', $prev_ts);
+
+        $max_days = max((int) date('t', $curr_ts), (int) date('t', $prev_ts));
+        $days = array();
+        $curr_omset = array_fill(0, $max_days, 0);
+        $prev_omset = array_fill(0, $max_days, 0);
+        $curr_unit  = array_fill(0, $max_days, 0);
+        $prev_unit  = array_fill(0, $max_days, 0);
+
+        for ($d = 1; $d <= $max_days; $d++) {
+            $days[] = str_pad($d, 2, '0', STR_PAD_LEFT);
+        }
+
+        $rows = $this->db
+            ->select("DATE_FORMAT(tanggal_mulai, '%Y-%m') AS ym, DAY(tanggal_mulai) AS d, "
+                . "COALESCE(SUM(total_masuk), 0) AS omset, COUNT(*) AS jml")
+            ->from('rental_transaksi')
+            ->where('tanggal_mulai >=', date('Y-m-01', $prev_ts))
+            ->where('tanggal_mulai <=', date('Y-m-t', $curr_ts))
+            ->group_by("DATE_FORMAT(tanggal_mulai, '%Y-%m'), DAY(tanggal_mulai)")
+            ->get()
+            ->result();
+
+        foreach ($rows as $r) {
+            $idx = ((int) $r->d) - 1;
+            if ($idx < 0 || $idx >= $max_days) {
+                continue;
+            }
+            if ($r->ym === $curr_ym) {
+                $curr_omset[$idx] = (float) $r->omset;
+                $curr_unit[$idx]  = (int) $r->jml;
+            } elseif ($r->ym === $prev_ym) {
+                $prev_omset[$idx] = (float) $r->omset;
+                $prev_unit[$idx]  = (int) $r->jml;
+            }
+        }
+
+        return array(
+            'days'          => $days,
+            'current_label' => nama_bulan_id((int) date('n', $curr_ts)) . ' ' . date('Y', $curr_ts),
+            'prev_label'    => nama_bulan_id((int) date('n', $prev_ts)) . ' ' . date('Y', $prev_ts),
+            'current_omset' => $curr_omset,
+            'prev_omset'    => $prev_omset,
+            'current_unit'  => $curr_unit,
+            'prev_unit'     => $prev_unit
+        );
+    }
+
+    /**
+     * Daftar unit paling sering disewa beserta kontribusi omsetnya.
+     */
+    public function get_top_units($bulan = null, $limit = 5)
+    {
+        $this->db->select('tipe_unit, plat_nomor, asal_unit, nama_unit_asal, '
+            . 'COUNT(*) AS kali_sewa, COALESCE(SUM(hari), 0) AS total_hari, '
+            . 'COALESCE(SUM(total_masuk), 0) AS total_omset, '
+            . 'COALESCE(SUM(unit_garasi + unit_luar), 0) AS total_laba');
+        $this->db->from('rental_transaksi');
+        if (!empty($bulan)) {
+            $parts = explode('-', $bulan);
+            if (count($parts) === 2) {
+                $this->db->where('YEAR(tanggal_mulai)', (int) $parts[0]);
+                $this->db->where('MONTH(tanggal_mulai)', (int) $parts[1]);
+            }
+        }
+        $this->db->group_by('tipe_unit, plat_nomor, asal_unit, nama_unit_asal');
+        $this->db->order_by('kali_sewa', 'DESC');
+        $this->db->order_by('total_omset', 'DESC');
+        $this->db->limit((int) $limit);
+        return $this->db->get()->result();
+    }
+
+    /**
+     * Transaksi sewa terbaru untuk ringkasan aktivitas dashboard.
+     */
+    public function get_recent_transactions($limit = 6)
+    {
+        $rows = $this->db
+            ->from('rental_transaksi')
+            ->order_by('tanggal_mulai', 'DESC')
+            ->order_by('id_sewa', 'DESC')
+            ->limit((int) $limit)
+            ->get()
+            ->result();
+
+        foreach ($rows as $idx => $row) {
+            $rows[$idx] = $this->enrich_row($row);
+        }
+        return $rows;
+    }
 }

@@ -4,10 +4,13 @@ $user_position = isset($userdata->position) ? strtolower(trim($userdata->positio
 $is_operational = ($user_position === 'admin_oprational');
 ?>
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-    <div class="app-brand demo">
-        <a href="<?php echo site_url('Dashboard'); ?>" class="app-brand-link">
-            <span class="app-brand-logo demo">
-                <img src="<?= base_url('assets'); ?>/img/logo/logo.png" />
+    <div class="app-brand demo" style="padding-left: 1.25rem; padding-right: 1rem;">
+        <a href="<?php echo site_url('Dashboard'); ?>" class="app-brand-link d-flex align-items-center gap-2 text-decoration-none">
+            <span class="app-brand-logo demo flex-shrink-0">
+                <img src="<?= base_url('assets'); ?>/img/logo/logo.png" alt="Logo Graha Transport" style="width: 44px; height: 44px; object-fit: contain;" />
+            </span>
+            <span class="fw-bolder" style="font-size: 1.05rem; color: #1A44B2; letter-spacing: -0.2px; line-height: 1.15; white-space: nowrap;">
+                Graha Transport
             </span>
         </a>
 

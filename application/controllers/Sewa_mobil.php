@@ -483,14 +483,67 @@ class Sewa_mobil extends AUTH_Controller
             }
         }
 
+        $est_tambahan_all = max(0, $total_berjalan - $total_tagihan);
+        $total_tagihan_invoice = $total_tagihan + $est_tambahan_all;
+        $dibayar = ($status_pembayaran === 'Lunas') ? $total_tagihan : $jumlah_dp;
+        $sisa_bayar = max(0, $total_tagihan_invoice - $dibayar);
+
+        $wm_text = 'BELUM BAYAR';
+        $wm_rgb  = array(220, 53, 69);
+        $wm_size = 52;
+        if ($status_pembayaran === 'Lunas') {
+            $wm_text = 'LUNAS';
+            $wm_rgb  = array(25, 135, 84);
+            $wm_size = 68;
+        } elseif ($status_pembayaran === 'DP' && $dibayar > 0) {
+            $wm_text = 'BELUM LUNAS';
+            $wm_rgb  = array(230, 126, 34);
+            $wm_size = 50;
+        }
+
         require_once APPPATH . 'libraries/tcpdf/Tcpdf.php';
 
-        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf = new class('P', 'mm', 'A4', true, 'UTF-8', false) extends TCPDF {
+            public $wmText = '';
+            public $wmRgb = array(25, 135, 84);
+            public $wmSize = 60;
+
+            public function Header()
+            {
+                // Kosong: header perusahaan digambar manual di halaman pertama
+            }
+
+            public function Footer()
+            {
+                if ($this->wmText === '') {
+                    return;
+                }
+                $bMargin = $this->getBreakMargin();
+                $autoPageBreak = $this->AutoPageBreak;
+                $this->SetAutoPageBreak(false, 0);
+                // Digambar di Footer agar berada di depan kotak tabel dengan opacity transparan
+                $this->SetAlpha(0.22);
+                $this->SetFont('helvetica', 'B', $this->wmSize);
+                $this->SetTextColor($this->wmRgb[0], $this->wmRgb[1], $this->wmRgb[2]);
+                $this->StartTransform();
+                $this->Rotate(32, 105, 135);
+                $this->SetXY(15, 121);
+                $this->Cell(180, 28, $this->wmText, 0, 0, 'C', false);
+                $this->StopTransform();
+                $this->SetAlpha(1);
+                $this->SetTextColor(0, 0, 0);
+                $this->SetAutoPageBreak($autoPageBreak, $bMargin);
+            }
+        };
+        $pdf->wmText = $wm_text;
+        $pdf->wmRgb = $wm_rgb;
+        $pdf->wmSize = $wm_size;
+
         $pdf->SetCreator('CV. Graha Transport');
         $pdf->SetAuthor('CV. Graha Transport');
         $pdf->SetTitle('Invoice ' . $no_invoice);
         $pdf->setPrintHeader(false);
-        $pdf->setPrintFooter(false);
+        $pdf->setPrintFooter(true);
         $pdf->SetMargins(15, 14, 15);
         $pdf->SetAutoPageBreak(true, 15);
         $pdf->AddPage();
@@ -537,10 +590,6 @@ class Sewa_mobil extends AUTH_Controller
         $pdf->SetLineWidth(0.2);
 
         $pdf->SetY(42);
-        $est_tambahan_all = max(0, $total_berjalan - $total_tagihan);
-        $total_tagihan_invoice = $total_tagihan + $est_tambahan_all;
-        $dibayar = ($status_pembayaran === 'Lunas') ? $total_tagihan : $jumlah_dp;
-        $sisa_bayar = max(0, $total_tagihan_invoice - $dibayar);
 
         $status_bayar_color = '#d9534f';
         if ($status_pembayaran === 'Lunas') {
