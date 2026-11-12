@@ -54,6 +54,13 @@ $is_operational = ($user_position === 'admin_oprational');
             </a>
         </li>
 
+        <li class="menu-item <?php echo ($this->uri->segment(1) == 'Perawatan_unit') ? 'active' : ''; ?>">
+            <a href="<?php echo site_url('Perawatan_unit'); ?>" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-wrench"></i>
+                <div data-i18n="Perawatan & Biaya">Perawatan &amp; Biaya</div>
+            </a>
+        </li>
+
         <?php
         $ci_sb =& get_instance();
         if (!isset($ci_sb->Sewa_model)) {

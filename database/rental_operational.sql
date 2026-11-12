@@ -165,6 +165,32 @@ CREATE TABLE IF NOT EXISTS `rental_notifikasi_log` (
   KEY `idx_notif_sewa_sent` (`id_sewa`, `sent_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Tabel Perawatan Unit, Servis Berkala, Ganti Oli, Asuransi & Pajak
+CREATE TABLE IF NOT EXISTS `unit_perawatan_biaya` (
+  `id_perawatan` int(11) NOT NULL AUTO_INCREMENT,
+  `id_unit` int(11) DEFAULT NULL,
+  `nama_unit` varchar(120) NOT NULL,
+  `plat_nomor` varchar(30) DEFAULT NULL,
+  `jenis_biaya` enum('servis','asuransi','pajak','lainnya') NOT NULL DEFAULT 'servis',
+  `judul_biaya` varchar(150) NOT NULL,
+  `tanggal_transaksi` date NOT NULL,
+  `nominal` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `vendor_bengkel` varchar(120) DEFAULT NULL,
+  `km_saat_ini` int(11) DEFAULT NULL,
+  `km_berikutnya` int(11) DEFAULT NULL,
+  `tanggal_jatuh_tempo` date DEFAULT NULL,
+  `status_perawatan` enum('Proses','Selesai') NOT NULL DEFAULT 'Selesai',
+  `keterangan` text DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_perawatan`),
+  KEY `idx_perawatan_unit` (`id_unit`),
+  KEY `idx_perawatan_tgl` (`tanggal_transaksi`),
+  KEY `idx_perawatan_jenis` (`jenis_biaya`),
+  KEY `idx_perawatan_jatuh_tempo` (`tanggal_jatuh_tempo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 INSERT IGNORE INTO `rental_notifikasi_setting` (`id`, `cron_token`, `reminder_interval_hours`)
 VALUES (1, SHA2(CONCAT(NOW(), RAND(), 'graha_transport'), 256), 12);
 

@@ -149,20 +149,20 @@
                     <div class="row g-2 mb-3">
                         <div class="col-sm-4 col-6">
                             <div class="gt-hero-stat">
-                                <div class="small" style="color: rgba(255, 255, 255, 0.78);">Laba Unit Garasi</div>
-                                <div class="fw-bold text-warning fs-6"><?= format_rupiah($sewa_summary['total_unit_garasi']); ?></div>
+                                <div class="small" style="color: rgba(255, 255, 255, 0.78);">Laba Sewa (Garasi + Luar)</div>
+                                <div class="fw-bold text-warning fs-6"><?= format_rupiah($sewa_summary['total_nett']); ?></div>
                             </div>
                         </div>
                         <div class="col-sm-4 col-6">
                             <div class="gt-hero-stat">
-                                <div class="small" style="color: rgba(255, 255, 255, 0.78);">Margin Unit Luar</div>
-                                <div class="fw-bold text-info fs-6"><?= format_rupiah($sewa_summary['total_unit_luar']); ?></div>
+                                <div class="small" style="color: rgba(255, 255, 255, 0.78);">Biaya Perawatan Unit</div>
+                                <div class="fw-bold text-danger fs-6" style="color: #fda4af !important;"><?= format_rupiah($biaya_summary['total_biaya']); ?></div>
                             </div>
                         </div>
                         <div class="col-sm-4 col-12">
                             <div class="gt-hero-stat">
-                                <div class="small" style="color: rgba(255, 255, 255, 0.78);">Setor Vendor (Bulan Ini)</div>
-                                <div class="fw-bold text-white fs-6"><?= format_rupiah($sewa_summary['total_rent_to_rent']); ?></div>
+                                <div class="small" style="color: rgba(255, 255, 255, 0.78);">Laba Bersih Akhir</div>
+                                <div class="fw-bold fs-6" style="color: #5eead4;"><?= format_rupiah($laba_bersih_akhir); ?></div>
                             </div>
                         </div>
                     </div>
@@ -171,14 +171,14 @@
                         <a href="<?= site_url('Sewa_mobil'); ?>" class="btn btn-sm btn-light fw-semibold text-primary">
                             <i class="bx bx-receipt me-1"></i> Kelola Sewa &amp; Invoice
                         </a>
+                        <a href="<?= site_url('Perawatan_unit'); ?>" class="btn btn-sm btn-outline-light">
+                            <i class="bx bx-wrench me-1"></i> Perawatan &amp; Biaya
+                        </a>
                         <a href="<?= site_url('Kontrak'); ?>" class="btn btn-sm btn-outline-light">
                             <i class="bx bx-file me-1"></i> Kontrak (<?= (int)$kontrak_aktif; ?> Aktif)
                         </a>
                         <a href="<?= site_url('Kelola_unit'); ?>" class="btn btn-sm btn-outline-light">
                             <i class="bx bx-car me-1"></i> Data Armada
-                        </a>
-                        <a href="<?= site_url('Notifikasi'); ?>" class="btn btn-sm btn-outline-light">
-                            <i class="bx bx-bell me-1"></i> Notifikasi HP
                         </a>
                     </div>
                 </div>
@@ -249,8 +249,8 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <div>
-                            <small class="text-muted fw-semibold d-block">Total Laba Bersih</small>
-                            <h4 class="fw-bold text-success mb-0"><?= format_rupiah($sewa_summary['total_nett']); ?></h4>
+                            <small class="text-muted fw-semibold d-block">Laba Bersih Akhir</small>
+                            <h4 class="fw-bold <?= $laba_bersih_akhir >= 0 ? 'text-success' : 'text-danger'; ?> mb-0"><?= format_rupiah($laba_bersih_akhir); ?></h4>
                         </div>
                         <span class="gt-kpi-icon bg-label-success text-success"><i class="bx bx-line-chart"></i></span>
                     </div>
@@ -259,7 +259,7 @@
                             <i class="bx <?= $laba_up ? 'bx-trending-up' : 'bx-trending-down'; ?>"></i>
                             <?= ($laba_up ? '+' : '') . $growth_laba; ?>%
                         </span>
-                        <span class="text-muted">Lalu: <?= format_rupiah($prev_summary['total_nett']); ?></span>
+                        <span class="text-muted">Lalu: <?= format_rupiah($prev_laba_bersih); ?></span>
                     </div>
                 </div>
             </div>

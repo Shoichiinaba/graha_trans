@@ -9,6 +9,7 @@ class Dashboard extends AUTH_Controller
     {
         parent::__construct();
         $this->load->model('Sewa_model');
+        $this->load->model('Perawatan_model');
         $this->load->helper('rental');
     }
 
@@ -16,10 +17,25 @@ class Dashboard extends AUTH_Controller
     {
         $curr = (float) $current;
         $prev = (float) $previous;
-        if ($prev <= 0) {
-            return $curr > 0 ? 100.0 : 0.0;
+        if ($prev == 0.0) {
+            return $curr > 0 ? 100.0 : ($curr < 0 ? -100.0 : 0.0);
         }
-        return round((($curr - $prev) / $prev) * 100, 1);
+        return round((($curr - $prev) / abs($prev)) * 100, 1);
+    }
+
+    private function _build_combined_trend($months)
+    {
+        $trend = $this->Sewa_model->get_monthly_trend($months);
+        $exp   = $this->Perawatan_model->get_monthly_expense_trend($months);
+
+        $trend['biaya_perawatan']   = $exp['total_biaya'];
+        $trend['laba_bersih_akhir'] = array();
+        $len = count($trend['laba']);
+        for ($i = 0; $i < $len; $i++) {
+            $biaya = isset($exp['total_biaya'][$i]) ? (float) $exp['total_biaya'][$i] : 0.0;
+            $trend['laba_bersih_akhir'][] = (float) $trend['laba'][$i] - $biaya;
+        }
+        return $trend;
     }
 
     public function index()
@@ -30,7 +46,13 @@ class Dashboard extends AUTH_Controller
         $curr_summary = $this->Sewa_model->get_summary(array('bulan' => $curr_month));
         $prev_summary = $this->Sewa_model->get_summary(array('bulan' => $prev_month));
 
-        $trend_6m  = $this->Sewa_model->get_monthly_trend(6);
+        $curr_biaya = $this->Perawatan_model->get_summary(array('bulan' => $curr_month));
+        $prev_biaya = $this->Perawatan_model->get_summary(array('bulan' => $prev_month));
+
+        $laba_bersih_curr = (float) $curr_summary['total_nett'] - (float) $curr_biaya['total_biaya'];
+        $laba_bersih_prev = (float) $prev_summary['total_nett'] - (float) $prev_biaya['total_biaya'];
+
+        $trend_6m  = $this->_build_combined_trend(6);
         $daily_cmp = $this->Sewa_model->get_daily_comparison();
 
         $top_units = $this->Sewa_model->get_top_units($curr_month, 5);
@@ -40,7 +62,6 @@ class Dashboard extends AUTH_Controller
             $top_scope = 'Semua Periode';
         }
 
-        // Hitung rincian unit garasi vs luar untuk chart komposisi bulan ini (atau all-time fallback jika kosong)
         $last_idx = count($trend_6m['months']) - 1;
         $garasi_cnt_curr = $last_idx >= 0 ? (int) $trend_6m['count_garasi'][$last_idx] : 0;
         $luar_cnt_curr   = $last_idx >= 0 ? (int) $trend_6m['count_luar'][$last_idx] : 0;
@@ -55,8 +76,12 @@ class Dashboard extends AUTH_Controller
         $data['prev_month_label']   = $daily_cmp['prev_label'];
         $data['sewa_summary']       = $curr_summary;
         $data['prev_summary']       = $prev_summary;
+        $data['biaya_summary']      = $curr_biaya;
+        $data['prev_biaya_summary'] = $prev_biaya;
+        $data['laba_bersih_akhir']  = $laba_bersih_curr;
+        $data['prev_laba_bersih']   = $laba_bersih_prev;
         $data['growth_omset']       = $this->_calc_growth_pct($curr_summary['total_masuk'], $prev_summary['total_masuk']);
-        $data['growth_laba']        = $this->_calc_growth_pct($curr_summary['total_nett'], $prev_summary['total_nett']);
+        $data['growth_laba']        = $this->_calc_growth_pct($laba_bersih_curr, $laba_bersih_prev);
         $data['growth_unit']        = $this->_calc_growth_pct($curr_summary['total_transaksi'], $prev_summary['total_transaksi']);
         $data['overdue_list']       = $this->Sewa_model->get_overdue();
         $data['kontrak_aktif']      = $this->db->where('status_kontrak', 'Aktif')->count_all_results('rental_kontrak');
@@ -78,7 +103,7 @@ class Dashboard extends AUTH_Controller
         if (!in_array($months, array(6, 12), true)) {
             $months = 6;
         }
-        $trend = $this->Sewa_model->get_monthly_trend($months);
+        $trend = $this->_build_combined_trend($months);
         $daily = $this->Sewa_model->get_daily_comparison();
 
         $this->output

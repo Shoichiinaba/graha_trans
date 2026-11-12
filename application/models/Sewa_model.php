@@ -368,7 +368,19 @@ class Sewa_model extends CI_Model
             ->where('status', 'Open')
             ->count_all_results('rental_transaksi');
 
-        $new_status = ($open_count > 0) ? 'rental' : 'ready';
+        if ($open_count > 0) {
+            $new_status = 'rental';
+        } else {
+            $service_count = 0;
+            if ($this->db->table_exists('unit_perawatan_biaya')) {
+                $service_count = $this->db
+                    ->where('id_unit', $id_unit)
+                    ->where('jenis_biaya', 'servis')
+                    ->where('status_perawatan', 'Proses')
+                    ->count_all_results('unit_perawatan_biaya');
+            }
+            $new_status = ($service_count > 0) ? 'service' : 'ready';
+        }
         $this->db->where('id_unit', $id_unit)->update('unit_mobil', array('status' => $new_status));
     }
 

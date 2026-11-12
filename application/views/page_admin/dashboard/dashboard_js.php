@@ -176,21 +176,26 @@
             },
             series: [
                 { name: 'Omset (Rp)', type: 'column', data: trend.omset },
-                { name: 'Laba Bersih (Rp)', type: 'column', data: trend.laba },
+                { name: 'Laba Bersih Akhir (Rp)', type: 'column', data: trend.laba_bersih_akhir || trend.laba },
+                { name: 'Biaya Perawatan (Rp)', type: 'column', data: trend.biaya_perawatan || [] },
                 { name: 'Unit Tersewa', type: 'line', data: trend.jumlah_unit }
             ],
-            colors: ['#1A44B2', '#10b981', '#f59e0b'],
-            stroke: { width: [0, 0, 3], curve: 'smooth' },
+            colors: ['#1A44B2', '#10b981', '#ef4444', '#f59e0b'],
+            stroke: { width: [0, 0, 0, 3], curve: 'smooth' },
             plotOptions: {
-                bar: { columnWidth: '48%', borderRadius: 6 }
+                bar: { columnWidth: '54%', borderRadius: 5 }
             },
-            markers: { size: [0, 0, 5], hover: { size: 7 } },
+            markers: { size: [0, 0, 0, 5], hover: { size: 7 } },
             xaxis: { categories: trend.labels },
             yaxis: [
                 {
                     seriesName: 'Omset (Rp)',
                     title: { text: 'Nominal (Rp)', style: { fontSize: '11px', color: '#64748b' } },
                     labels: { formatter: function(val) { return formatRpShort(val); } }
+                },
+                {
+                    seriesName: 'Omset (Rp)',
+                    show: false
                 },
                 {
                     seriesName: 'Omset (Rp)',
@@ -210,7 +215,7 @@
                 intersect: false,
                 y: {
                     formatter: function(val, ctx) {
-                        if (ctx.seriesIndex === 2) return Math.round(val) + ' unit tersewa';
+                        if (ctx.seriesIndex === 3) return Math.round(val) + ' unit tersewa';
                         return formatRpFull(val);
                     }
                 }
