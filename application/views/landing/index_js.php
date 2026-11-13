@@ -8,54 +8,91 @@ const promoTrack = document.getElementById("promoTrack");
 if (promoTrack) {
 
     const slides = document.querySelectorAll(".promo-slide");
-
     const dots = document.querySelectorAll(".promo-dot");
+    const btnPrev = document.getElementById("promoPrev");
+    const btnNext = document.getElementById("promoNext");
 
     let index = 0;
 
     function updatePromo() {
-
-        promoTrack.style.transform = `translateX(-${index*100}%)`;
-
+        promoTrack.style.transform = `translateX(-${index * 100}%)`;
         dots.forEach(dot => dot.classList.remove("active"));
-
-        dots[index].classList.add("active");
-
+        if (dots[index]) {
+            dots[index].classList.add("active");
+        }
     }
 
     function nextPromo() {
-
         index++;
-
         if (index >= slides.length) {
-
             index = 0;
-
         }
-
         updatePromo();
-
     }
 
-    let interval = setInterval(nextPromo, 5000);
+    function prevPromo() {
+        index--;
+        if (index < 0) {
+            index = slides.length - 1;
+        }
+        updatePromo();
+    }
+
+    let interval = setInterval(nextPromo, 6000);
+
+    function resetTimer() {
+        clearInterval(interval);
+        interval = setInterval(nextPromo, 6000);
+    }
+
+    if (btnNext) {
+        btnNext.addEventListener("click", function() {
+            resetTimer();
+            nextPromo();
+        });
+    }
+
+    if (btnPrev) {
+        btnPrev.addEventListener("click", function() {
+            resetTimer();
+            prevPromo();
+        });
+    }
 
     dots.forEach((dot, i) => {
-
         dot.onclick = function() {
-
-            clearInterval(interval);
-
+            resetTimer();
             index = i;
-
             updatePromo();
-
-            interval = setInterval(nextPromo, 5000);
-
         }
-
     });
 
 }
+
+/* ===========================
+   FAQ ACCORDION
+=========================== */
+$(document).ready(function() {
+    $(".faq-toggle").on("click", function() {
+        const item = $(this).closest(".faq-item");
+        const content = item.find(".faq-content");
+        const icon = $(this).find(".fa-chevron-down");
+
+        const isOpen = !content.hasClass("hidden");
+
+        // Close all
+        $(".faq-content").addClass("hidden");
+        $(".faq-toggle .fa-chevron-down").removeClass("rotate-180");
+        $(".faq-item").removeClass("border-teal-400/40 bg-white/[0.06]");
+
+        // Toggle clicked
+        if (!isOpen) {
+            content.removeClass("hidden");
+            icon.addClass("rotate-180");
+            item.addClass("border-teal-400/40 bg-white/[0.06]");
+        }
+    });
+});
 
 $(document).ready(function() {
 

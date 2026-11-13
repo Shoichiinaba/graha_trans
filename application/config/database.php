@@ -9,12 +9,12 @@ $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	// Offline development
-	// 'username' => 'root',
-	// 'password' => '',
+	'username' => 'root',
+	'password' => '',
 
 	// online development (productions)
-	'username' => 'grahatr1_admingraha',
-	'password' => 'YmLMUvT4tUFnsb~F',
+	// 'username' => 'grahatr1_admingraha',
+	// 'password' => 'YmLMUvT4tUFnsb~F',
 
 	'database' => 'grahatr1_admingraha',
 	'dbdriver' => 'mysqli',

@@ -9,11 +9,17 @@
     <a href="#beranda" class="mobile-link">
         <i class="fa-solid fa-house"></i> Beranda
     </a>
+    <a href="#armada" class="mobile-link">
+        <i class="fa-solid fa-car-side"></i> Armada
+    </a>
+    <a href="#layanan" class="mobile-link">
+        <i class="fa-solid fa-bell-concierge"></i> Layanan Kami
+    </a>
     <a href="#keunggulan" class="mobile-link">
         <i class="fa-solid fa-shield-heart"></i> Keunggulan
     </a>
-    <a href="#armada" class="mobile-link">
-        <i class="fa-solid fa-car-side"></i> Armada
+    <a href="#wilayah" class="mobile-link">
+        <i class="fa-solid fa-map-location-dot"></i> Jangkauan Wilayah
     </a>
     <a href="#review" class="mobile-link">
         <i class="fa-solid fa-star"></i> Review
@@ -41,8 +47,10 @@
         <!-- DESKTOP NAV -->
         <nav class="hidden lg:flex items-center gap-8 font-medium text-sm">
             <a href="#beranda" class="hover:text-teal-400 transition">Beranda</a>
-            <a href="#keunggulan" class="hover:text-teal-400 transition">Keunggulan</a>
             <a href="#armada" class="hover:text-teal-400 transition">Armada</a>
+            <a href="#layanan" class="hover:text-teal-400 transition">Layanan</a>
+            <a href="#keunggulan" class="hover:text-teal-400 transition">Keunggulan</a>
+            <a href="#wilayah" class="hover:text-teal-400 transition">Jangkauan</a>
             <a href="#review" class="hover:text-teal-400 transition">Review</a>
             <a href="#kontak" class="hover:text-teal-400 transition">Kontak</a>
         </nav>

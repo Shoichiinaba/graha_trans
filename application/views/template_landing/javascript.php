@@ -49,27 +49,50 @@ document.querySelectorAll('.mobile-link').forEach(link => {
 // HERO IMAGE SLIDER LOGIC
 const heroTrack = document.getElementById('heroTrack');
 const dots = document.querySelectorAll('.dot');
+const btnHeroPrev = document.getElementById('heroPrev');
+const btnHeroNext = document.getElementById('heroNext');
 let heroIndex = 0;
 const slideCount = dots.length;
 
 function updateHero() {
+    if (!heroTrack) return;
     heroTrack.style.transform = `translateX(-${heroIndex * 100}%)`;
     dots.forEach(dot => dot.classList.remove('active'));
-    dots[heroIndex].classList.add('active');
+    if (dots[heroIndex]) {
+        dots[heroIndex].classList.add('active');
+    }
 }
 
 function nextSlide() {
+    if (slideCount <= 0) return;
     heroIndex = (heroIndex + 1) % slideCount;
     updateHero();
 }
 
 function prevSlide() {
+    if (slideCount <= 0) return;
     heroIndex = (heroIndex - 1 + slideCount) % slideCount;
     updateHero();
 }
 
 // Auto slide interval
-let sliderInterval = setInterval(nextSlide, 4000);
+let sliderInterval = setInterval(nextSlide, 4500);
+
+// Arrow buttons navigation
+if (btnHeroPrev) {
+    btnHeroPrev.addEventListener('click', () => {
+        clearInterval(sliderInterval);
+        prevSlide();
+        sliderInterval = setInterval(nextSlide, 4500);
+    });
+}
+if (btnHeroNext) {
+    btnHeroNext.addEventListener('click', () => {
+        clearInterval(sliderInterval);
+        nextSlide();
+        sliderInterval = setInterval(nextSlide, 4500);
+    });
+}
 
 // Pagination dot click
 dots.forEach((dot, index) => {
@@ -78,7 +101,7 @@ dots.forEach((dot, index) => {
         updateHero();
         // Reset timer on manual click
         clearInterval(sliderInterval);
-        sliderInterval = setInterval(nextSlide, 4000);
+        sliderInterval = setInterval(nextSlide, 4500);
     });
 });
 
