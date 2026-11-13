@@ -781,7 +781,11 @@ TABLET
         max-width:100%;
     }
 
-    .promo-content .flex{
+    .promo-btn-group{
+        justify-content:center;
+    }
+
+    .promo-pill-group{
         justify-content:center;
     }
 
@@ -812,15 +816,27 @@ MOBILE
         line-height: 1.6;
     }
 
-    .promo-content .flex{
-        flex-direction:column;
-        width:100%;
-        gap:12px;
+    .promo-btn-group{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 12px !important;
     }
 
-    .promo-content .flex a{
-        width:100%;
-        justify-content:center;
+    .promo-btn-group a{
+        width: 100% !important;
+        display: inline-flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px !important;
+    }
+
+    .promo-pill-group{
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 8px !important;
     }
 
     .promo-image{

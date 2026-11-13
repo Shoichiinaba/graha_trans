@@ -799,18 +799,18 @@ ARTICLE SKELETON
                             <div class="promo-content">
                                 
                                 <!-- Label Promo & Badge Diskusi (Tanpa Persentase Diskon) -->
-                                <div class="flex flex-wrap items-center gap-3 mb-6">
-                                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/25 via-orange-500/15 to-transparent border border-amber-400/40 text-amber-200 text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-md">
+                                <div class="promo-pill-group flex flex-wrap items-center gap-3 mb-6">
+                                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/25 via-orange-500/15 to-transparent border border-amber-400/40 text-amber-200 text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-md shrink-0">
                                         <i class="fa-solid fa-gift text-amber-300"></i>
                                         <?= !empty($row->tagline) ? htmlspecialchars($row->tagline, ENT_QUOTES, 'UTF-8') : 'Penawaran Spesial'; ?>
                                     </span>
-                                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-500/15 border border-teal-400/35 text-teal-300 text-xs font-semibold backdrop-blur-md">
-                                        <span class="relative flex h-2 w-2">
+                                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-500/15 border border-teal-400/35 text-teal-300 text-xs font-semibold backdrop-blur-md shrink-0">
+                                        <span class="relative inline-flex h-2 w-2 shrink-0">
                                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
                                             <span class="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
                                         </span>
-                                        <i class="fa-solid fa-comments text-teal-300 text-[11px]"></i>
-                                        Nego Terbaik by Diskusi
+                                        <i class="fa-solid fa-comments text-teal-300 text-[11px] shrink-0"></i>
+                                        <span class="whitespace-nowrap">Nego Terbaik by Diskusi</span>
                                     </span>
                                 </div>
 
@@ -824,32 +824,32 @@ ARTICLE SKELETON
 
                                 <!-- Visualisasi Fitur & Keunggulan -->
                                 <div class="flex flex-wrap gap-2.5 mt-6">
-                                    <span class="inline-flex items-center gap-2 text-xs text-slate-300 bg-white/[0.04] border border-white/10 px-3.5 py-1.5 rounded-xl backdrop-blur-sm hover:border-teal-400/40 hover:text-white transition">
+                                    <span class="inline-flex items-center gap-2 text-xs text-slate-300 bg-white/[0.04] border border-white/10 px-3.5 py-1.5 rounded-xl backdrop-blur-sm hover:border-teal-400/40 hover:text-white transition shrink-0">
                                         <i class="fa-solid fa-handshake-angle text-teal-400"></i> Nego Fleksibel via WA
                                     </span>
-                                    <span class="inline-flex items-center gap-2 text-xs text-slate-300 bg-white/[0.04] border border-white/10 px-3.5 py-1.5 rounded-xl backdrop-blur-sm hover:border-teal-400/40 hover:text-white transition">
+                                    <span class="inline-flex items-center gap-2 text-xs text-slate-300 bg-white/[0.04] border border-white/10 px-3.5 py-1.5 rounded-xl backdrop-blur-sm hover:border-teal-400/40 hover:text-white transition shrink-0">
                                         <i class="fa-solid fa-car-side text-teal-400"></i> Bebas Pilih Armada
                                     </span>
-                                    <span class="inline-flex items-center gap-2 text-xs text-slate-300 bg-white/[0.04] border border-white/10 px-3.5 py-1.5 rounded-xl backdrop-blur-sm hover:border-teal-400/40 hover:text-white transition">
+                                    <span class="inline-flex items-center gap-2 text-xs text-slate-300 bg-white/[0.04] border border-white/10 px-3.5 py-1.5 rounded-xl backdrop-blur-sm hover:border-teal-400/40 hover:text-white transition shrink-0">
                                         <i class="fa-solid fa-clock-rotate-left text-amber-400"></i> Respon Cepat 24 Jam
                                     </span>
                                 </div>
 
                                 <!-- Tombol Aksi -->
-                                <div class="flex flex-wrap gap-4 mt-8 items-center">
+                                <div class="promo-btn-group flex flex-wrap gap-4 mt-8 items-center">
                                     <a href="https://wa.me/6281327160516?text=Halo%20Graha%20Transport%2C%20saya%20tertarik%20dengan%20promo%20<?= rawurlencode($row->judul_promo); ?>.%20Boleh%20diskusi%20untuk%20penawaran%20harga%20terbaik%20dan%20ketersediaan%20unitnya%3F"
                                         target="_blank" rel="noopener noreferrer"
-                                        class="luxury-shimmer-btn px-8 py-4 rounded-2xl font-black text-slate-950 flex items-center gap-3 shadow-xl shadow-teal-500/25 hover:shadow-teal-400/40 hover:scale-102 transition group">
-                                        <div class="w-7 h-7 rounded-lg bg-[#25D366] text-white flex items-center justify-center text-sm shadow group-hover:scale-110 transition-transform">
+                                        class="promo-btn luxury-shimmer-btn px-8 py-4 rounded-2xl font-black text-slate-950 flex items-center justify-center gap-3 shadow-xl shadow-teal-500/25 hover:shadow-teal-400/40 hover:scale-102 transition group">
+                                        <div class="w-7 h-7 rounded-lg bg-[#25D366] text-white flex items-center justify-center text-sm shadow group-hover:scale-110 transition-transform shrink-0">
                                             <i class="fa-brands fa-whatsapp"></i>
                                         </div>
-                                        <span>Klaim & Diskusi Promo</span>
+                                        <span class="whitespace-nowrap">Klaim & Diskusi Promo</span>
                                     </a>
 
                                     <a href="#armada"
-                                        class="px-7 py-4 rounded-2xl border border-white/20 bg-slate-900/60 hover:bg-white/10 hover:border-teal-400 transition font-bold text-white text-sm backdrop-blur-md flex items-center gap-2 group">
+                                        class="promo-btn px-7 py-4 rounded-2xl border border-white/20 bg-slate-900/60 hover:bg-white/10 hover:border-teal-400 transition font-bold text-white text-sm backdrop-blur-md flex items-center justify-center gap-2 group">
                                         <span>Pilih Unit Mobil</span>
-                                        <i class="fa-solid fa-arrow-right text-xs text-teal-400 group-hover:translate-x-1 transition-transform"></i>
+                                        <i class="fa-solid fa-arrow-right text-xs text-teal-400 group-hover:translate-x-1 transition-transform shrink-0"></i>
                                     </a>
                                 </div>
                             </div>
@@ -1959,10 +1959,10 @@ ARTICLE SKELETON
             <h2 class="text-3xl md:text-5xl font-bold text-white">
                 Kepuasan <span class="text-teal-400">Pelanggan Kami</span>
             </h2>
-            <div class="inline-flex items-center gap-3 mt-4 px-5 py-2.5 rounded-full bg-white/[0.04] border border-white/10 text-sm text-slate-200 backdrop-blur-md">
-                <span class="text-amber-300 font-extrabold flex items-center gap-1.5"><i class="fa-solid fa-star"></i> 4.9 / 5.0</span>
-                <span class="text-slate-600">•</span>
-                <span>Rating Sempurna dari Ulasan Terverifikasi Google Maps</span>
+            <div class="inline-flex items-center gap-2 sm:gap-3 mt-4 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white/[0.04] border border-white/10 text-xs sm:text-sm text-slate-200 backdrop-blur-md max-w-full">
+                <span class="text-amber-300 font-extrabold flex items-center gap-1.5 shrink-0 whitespace-nowrap"><i class="fa-solid fa-star text-xs sm:text-sm"></i> 4.9&nbsp;/&nbsp;5.0</span>
+                <span class="text-slate-600 shrink-0">•</span>
+                <span class="truncate sm:whitespace-normal">Rating Sempurna dari Ulasan Terverifikasi Google Maps</span>
             </div>
         </div>
 
